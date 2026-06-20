@@ -81,15 +81,15 @@ HASE/
 
 ### Integration Matrix
 
-| Tool / Assistant | File Path / Mechanism | Purpose |
-| :--- | :--- | :--- |
-| **GitHub Copilot** | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | Inject HASE parameters into GitHub Copilot's system prompt context. |
-| **Cursor (Modern)** | [`.cursor/rules/hase.mdc`](.cursor/rules/hase.mdc) | Set global file-matching rules (`globs: *`) to enforce HASE on all actions. |
-| **Cursor (Legacy)** | [`.cursorrules`](.cursorrules) | Legacy file for older versions of Cursor to enforce prompt context. |
-| **Claude Code** | [`CLAUDE.md`](CLAUDE.md) | Standard developer instruction manual that Claude Code checks on startup. |
-| **Sourcegraph Cody** | [`.sourcegraph/hase.rule.md`](.sourcegraph/hase.rule.md) | Configures workspace rules for Cody's prompt assembly engine. |
-| **Windsurf** | [`.windsurfrules`](.windsurfrules) | Configures standard rules for the Windsurf editor agent. |
-| **Harnesses & APIs** | [`templates/hase-system-prompt.txt`](templates/hase-system-prompt.txt) | Raw copy-paste prompts for custom scripts, Hermes, Codex, or OpenAI APIs. |
+| Tool / Assistant | Config File / Location | Raw Download | Purpose |
+| :--- | :--- | :--- | :--- |
+| **GitHub Copilot** | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.github/copilot-instructions.md) | Inject HASE parameters into GitHub Copilot's system prompt context. |
+| **Cursor (Modern)** | [`.cursor/rules/hase.mdc`](.cursor/rules/hase.mdc) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.cursor/rules/hase.mdc) | Set global file-matching rules (`globs: *`) to enforce HASE on all actions. |
+| **Cursor (Legacy)** | [`.cursorrules`](.cursorrules) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.cursorrules) | Legacy file for older versions of Cursor to enforce prompt context. |
+| **Claude Code** | [`CLAUDE.md`](CLAUDE.md) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/CLAUDE.md) | Standard developer instruction manual that Claude Code checks on startup. |
+| **Sourcegraph Cody** | [`.sourcegraph/hase.rule.md`](.sourcegraph/hase.rule.md) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.sourcegraph/hase.rule.md) | Configures workspace rules for Cody's prompt assembly engine. |
+| **Windsurf** | [`.windsurfrules`](.windsurfrules) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.windsurfrules) | Configures standard rules for the Windsurf editor agent. |
+| **Harnesses & APIs** | [`templates/hase-system-prompt.txt`](templates/hase-system-prompt.txt) | [**Raw Text**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-system-prompt.txt) / [**Raw MD**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-system-prompt.md) | Raw copy-paste prompts for custom scripts, Hermes, Codex, or OpenAI APIs. |
 
 ---
 
