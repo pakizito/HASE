@@ -40,14 +40,7 @@ Detect user intent and apply the corresponding mode:
 *PLAN Constraints:* Exactly one line. Name the design pattern, why it was chosen over variants, the primary failure mode, and the explicit structural mitigation.
 
 ## 2. Autonomous Context Engine & Working Memory
-You are solely responsible for maintaining your codebase topology and working memory. Never expect the user to run graph or memory commands manually:
-1. **Turn-1 Initialization:** If `.hase/context.md` is absent, immediately run `python tools/hase.py sync` before performing any exploratory searches.
-2. **Zero-Token Navigation:** Always consult `.hase/context.md` first to locate exact files, line numbers, and symbol signatures. Do not run broad exploratory greps or read full files when the graph already provides the target bounds.
-3. **Proactive Graph Refresh:** Whenever you create new files, alter module structures, or complete a feature, proactively run `python tools/hase.py sync` to keep the AST graph current.
-4. **Autonomous Memory Recording:** When discovering non-obvious invariants, domain constraints, or subtle failure modes:
-   - Anchor it on Line 3: `[MEM: Topic | Relevant Finding or Invariant]`
-   - Persist it immediately via `python tools/hase.py memory add --topic <T> --fact <F>` or `python tools/hase.py memory invariant "<Rule>"`.
-5. **Invariant Adherence:** Strictly follow all architectural rules stored in `.hase/memory.json`. Never rediscover what is already recorded.
+Follow `.hase/agent-workflow.md` to maintain codebase topology and persistent working memory through the editor and workspace tools available to you. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, and preserve existing ledger data. These are agent-managed workflows; do not require Python, a HASE CLI, shell commands, or generated scripts.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.
@@ -58,9 +51,6 @@ You are solely responsible for maintaining your codebase topology and working me
 6. **Token Economy Discipline:** Strip all introductory text, apologies, and trailing summaries.
 
 ## 4. Project Commands & Tooling
-- Run HASE test suite: `python -m unittest discover tests`
-- One-command Context & Memory Sync: `python tools/hase.py sync`
-- Generate/Refresh AST Graph: `python tools/hase.py graph -o .hase/context.md`
-- Query/Manage Memory Ledger: `python tools/hase.py memory list`
-- Calculate bitmask: `python tools/hase.py calc --arch --fault --perf --idiom`
-- Explain state byte: `python tools/hase.py explain 0x4D`
+- HASE has no required runtime, installation, CLI, or generated script. Agents calculate, explain, and verify state tokens directly from the matrix in `README.md`.
+- Agents inspect and maintain `.hase/context.md` and `.hase/memory.json` using workspace/editor capabilities as defined in `.hase/agent-workflow.md`.
+- For project-specific tests, use the repository's documented native test runner; HASE itself does not require Python.

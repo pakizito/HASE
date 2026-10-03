@@ -24,5 +24,4 @@ Before editing code, mentally audit the task against the HASE v7.0 8-plane cogni
 - Never swallow exceptions.
 
 ## 3. Context Engine & Working Memory
-- Check `.hase/context.md` for AST topology and symbol index before making exploratory edits.
-- Adhere to invariants recorded in `.hase/memory.json`.
+Follow `.hase/agent-workflow.md` for agent-managed context graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, and preserve existing ledger entries. No Python runtime or HASE CLI is required.

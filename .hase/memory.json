@@ -1,15 +1,17 @@
 {
   "version": "7.0",
-  "updated_at": "2026-10-03T09:25:54.951663+00:00",
+  "updated_at": "2026-10-03T10:37:09.277Z",
   "findings": [
     {
       "id": "f-001",
-      "topic": "AST",
-      "fact": "ast.parse handles Python AST while regex extractor handles JS/TS/Go/Rust",
+      "topic": "Context graph",
+      "fact": "The old Python AST graph CLI and unittest suite were removed. HASE now has no runtime requirement; .hase/context.md is agent-maintained and best-effort, and graph/memory operations depend on host workspace-file and language-service capabilities.",
       "files": [
-        "tools/hase.py"
+        ".hase/agent-workflow.md",
+        ".hase/context.md",
+        "README.md"
       ],
-      "recorded_at": "2026-10-03T09:25:54.951150+00:00"
+      "recorded_at": "2026-10-03T10:37:09.277Z"
     }
   ],
   "invariants": [

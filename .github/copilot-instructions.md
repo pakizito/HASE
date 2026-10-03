@@ -37,14 +37,7 @@ Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; o
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
 ## 3. AUTONOMOUS CONTEXT & MEMORY PROTOCOL
-You are solely responsible for maintaining your codebase topology and working memory. Never expect the user to run graph or memory commands manually:
-- Turn-1 Initialization: If `.hase/context.md` is absent, run `python tools/hase.py sync` before exploratory searches.
-- Zero-Token Navigation: Always consult `.hase/context.md` first to locate exact files, line numbers, and symbol signatures. Do not run broad exploratory greps or read full files when the graph provides target bounds.
-- Proactive Graph Refresh: Whenever you create new files, alter module structures, or complete a refactor, proactively run `python tools/hase.py sync` to keep the AST graph current.
-- Autonomous Memory Recording: When discovering non-obvious invariants or domain rules:
-  * Anchor in Line 3: `[MEM: Topic | Relevant Finding or Invariant]`
-  * Persist immediately via `python tools/hase.py memory add --topic <T> --fact <F>` or `python tools/hase.py memory invariant "<Rule>"`.
-- Invariant Adherence: Strictly follow all architectural rules stored in `.hase/memory.json`. Never rediscover what is already recorded.
+Follow `.hase/agent-workflow.md` to maintain the codebase context graph and persistent memory ledger using the editor and workspace tools available to you. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, and preserve existing ledger data. These are agent-managed workflows; do not require Python, a HASE CLI, shell commands, or generated scripts.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

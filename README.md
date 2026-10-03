@@ -1,107 +1,100 @@
 # HASE v7.0: Token-Guided Architecture & Memory Engine
-*Universal AI Developer Co-Pilot · Deterministic Execution · Extreme Token Economy*
+*Universal AI Developer Co-Pilot · No Runtime Required · Compact Agent Workflow*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Paradigm: Token-Guided Inference](https://img.shields.io/badge/Paradigm-TGI-blueviolet)](#)
-[![Stage: Production-Ready](https://img.shields.io/badge/Stage-v7.0--Deterministic-success)](#)
-[![Token Efficiency: ~95% CoT Reduction](https://img.shields.io/badge/Token_Efficiency-~95%25_CoT_Savings-brightgreen)](#)
+[![Runtime: None](https://img.shields.io/badge/Runtime-none-success)](#)
 [![Supported Tools](https://img.shields.io/badge/Ecosystem-Cursor_·_Windsurf_·_Claude_·_Copilot_·_Cline_·_Aider_·_Antigravity-blue)](#)
 
-**HASE** is a state-of-the-art prompt-engineering framework and developer protocol built for **Token-Guided Inference (TGI)**. It compresses a Principal Software Engineer's architectural checklist into a **single hexadecimal state byte** (`[STATE: 0xXX]`), a **compact 1-line execution matrix** (`[PLAN: Approach | Rationale | Risk -> Mitigation]`), and an optional **working memory anchor** (`[MEM: Topic | Finding]`).
+**HASE** is a portable prompt protocol and set of agent instructions. It has no executable, package, or runtime dependency. Its output format summarizes an architectural checklist in a **state byte** (`[STATE: 0xXX]`), an **implementation plan** (`[PLAN: Approach | Rationale | Risk -> Mitigation]`), and an optional **working-memory anchor** (`[MEM: Topic | Finding]`).
 
-By forcing the model's self-attention heads to cross-examine 8 architectural dimensions *before* generating code, HASE eliminates cognitive laziness, hallucinated dependencies, and lazy placeholders (`TODO`) while saving **up to 95% of reasoning token overhead** compared to verbose Chain-of-Thought (CoT).
+HASE provides a compact prompt protocol intended to encourage explicit consideration of 8 architectural dimensions. It is a set of agent instructions, not a runtime or a guarantee: output quality, verification, token savings, and graph completeness depend on the model and the host editor's available tools.
 
 ---
 
-## The Cognitive Dilemma: CoT vs. Zero-Shot
+## The Output-Format Trade-off
 
-In production AI software development, engineering teams face a painful trade-off:
+Agent workflows often trade concise output against explicit engineering checks:
 
 ```
-[ Traditional Chain-of-Thought (CoT) ]
-User Prompt ──► 350-500 Tokens of Chatty Monologue ──► Code
-                 ▲ Financial Hemorrhage & High Latency
-                 ▲ Context Window Saturation
+[ Unstructured Narrative ]
+User Prompt ──► Variable-length planning ──► Code
+                 ▲ Important constraints can be hard to review
 
 [ Naive Zero-Shot / Suppression ]
 User Prompt ──► Immediate Code Generation (Shallow Forward Pass)
                  ▲ Missed Edge Cases, Unchecked State Mutations, Security Flaws
                  ▲ "TODO: Implement later" Placeholders & Hallucinated APIs
 
-[ HASE v7.0: Token-Guided Inference & Memory Engine ]
-User Prompt ──► [STATE: 0x4D] (1 Byte Bitmask)
-                 [PLAN: 1-Line Structured Matrix]  ──► Production-Ready Code
-                 [MEM: Working Memory Anchor (opt)]
-                 ✔ Attention heads anchored to 8 architectural planes
-                 ✔ Under 18 tokens of reasoning overhead (~95% savings)
-                 ✔ Deterministic, typed, and resilient output
+[ HASE v7.0: Compact Agent Protocol ]
+User Prompt ──► [STATE: 0x4D]
+                 [PLAN: Approach | Rationale | Risk -> Mitigation]
+                 [MEM: Finding (optional)] ──► Agent response
+                 ✔ Explicit checklist and reviewable plan format
+                 ✔ Optional workspace graph and persistent memory
+                 ✔ No HASE runtime; no correctness or savings guarantee
 ```
 
-### 1. The Financial & Latency Hemorrhage of CoT
-Standard autoregressive models default to conversational narrative ("Sure! I will now write a class..."). Traditional deep reasoning forces verbose Chain-of-Thought output. On per-token metered APIs (OpenAI, Anthropic, Gemini, Groq, DeepSeek), you pay for every character of internal monologue. Furthermore, verbose preambles saturate the model's context window, degrading subsequent turns in an agentic loop.
+### 1. Unstructured verbosity
+Long narrative responses can make plans and constraints harder to scan. HASE offers a compact visible response structure; it does not control hidden reasoning or guarantee token savings.
 
-### 2. The Failure Modes of Shallow Zero-Shot
-Suppressing reasoning tokens entirely forces the model into a single forward pass without an attention anchor. Without pre-conditioning, transformers rush into generation—omitting error handling, neglecting thread safety, and emitting broken stubs.
+### 2. Missing engineering checks
+An unstructured prompt may fail to call attention to testing, lifecycle, security, or failure modes. HASE names these dimensions, but generated work still needs ordinary review and tests.
 
-### 3. The HASE Solution: Virtual Bitmask Compiler
-HASE transforms the LLM into a **virtual bitmask compiler**:
+### 3. HASE's compact protocol
+The agent uses a small set of visible response conventions:
 1. **Line 1: `[STATE: 0xXX]`** — A 1-byte hexadecimal bitmask encoding which of the 8 architectural planes were audited.
 2. **Line 2: `[PLAN: Approach | Rationale | Risk -> Mitigation]`** — A strict, pipe-delimited architectural matrix committing to the pattern, the justification, and the failure-mode countermeasure.
 3. **Line 3 (Conditional): `[MEM: Topic | Relevant Finding or Invariant]`** — An optional working memory anchor when critical discoveries or constraints are uncovered.
 4. **Line 4+ (or Line 3+):** Immediate production-grade code, surgical diff, or technical diagnostic.
 
-Because transformers optimize for internal statistical and semantic consistency, computing and printing this header locks the self-attention Key-Value (KV) cache. Lazy token combinations are mathematically suppressed for the remainder of the generation.
+The header makes the checklist and plan easier to inspect; it does not alter model internals or guarantee correctness.
 
 ---
 
-## Token Economy Benchmarks
+## Protocol Capabilities
 
-| Metric | Verbose CoT | Naive Zero-Shot | HASE v7.0 TGI |
-| :--- | :--- | :--- | :--- |
-| **Reasoning Output Overhead** | 350 – 600 tokens | 0 tokens | **12 – 18 tokens** |
-| **Token Cost Reduction** | Baseline (0%) | 100% | **~95% Savings** |
-| **Time-to-First-Code-Token** | 4 – 12 seconds | < 1 second | **< 1 second** |
-| **Architectural Defect Rate** | Low | High (35–50%) | **Ultra-Low (< 4%)** |
-| **Stub / Placeholder Rate** | Low | Very High | **Zero (`0%`)** |
-| **Edit Re-Emission Waste** | High (full files) | High (full files) | **Ultra-Low (Surgical Diffs)** |
-| **Exploratory Tool-Call Tokens**| 5,000 – 20,000 tokens | 5,000 – 20,000 tokens | **< 300 tokens (via AST Graph)** |
+| Capability | HASE protocol |
+| :--- | :--- |
+| **Architectural checklist** | 8 explicitly named planes encoded in a state byte |
+| **Implementation plan** | Compact approach, rationale, and risk-mitigation line |
+| **Memory anchor** | Optional in-band `[MEM: ...]` plus an editable workspace ledger |
+| **Codebase navigation** | Agent-maintained, best-effort `.hase/context.md` |
+| **Runtime requirement** | None; graph and memory operations use the host agent's workspace tools |
+| **Guarantees** | None; verify generated code and graph entries against source and tests |
 
 ---
 
-## Zero-Token Exploration: The AST Codebase Graph
+## Python-Free Codebase Context Graph
 
-In typical agentic coding sessions, agents burn **thousands of tokens** running exploratory searches (`find`, `grep`, directory listings) and reading large files just to locate symbols, class hierarchies, and import paths.
+Repeated searches can make it harder for an agent to retain module relationships and symbol locations across tasks.
 
-HASE solves this with a built-in, zero-dependency **AST Codebase Graph Engine**:
+HASE asks the coding agent to maintain a compact navigation index in `.hase/context.md` using the editor and workspace capabilities already available to it. This requires no HASE CLI, Python interpreter, package installation, or generated script. It is an **agent-maintained context graph**, not a parser-produced AST: the agent must state its coverage and limitations, and verify source before relying on recorded symbols or line numbers. Context refresh is best-effort and depends on the agent having permission to edit workspace files; without that access, it can only provide a proposed update in its response.
 
 ```
-[ Without AST Graph: The Exploratory Tax ]
-Agent ──► list_dir (150 tok) ──► grep "class" (400 tok) ──► view 5 files (6,000 tok) ──► Finally edits code
-                                                               ▲ Massive Token Waste
+[ Without a Context Index ]
+Agent ──► broad searches ──► several source files ──► finally edits code
+                              ▲ repeated exploration
 
-[ With HASE AST Graph (.hase/context.md) ]
-Agent ──► Reads compressed AST topology (<250 tok) ──► Goes directly to file:line bounds
-           ✔ 100% of symbols, methods, types, and dependencies known at Turn 1
-           ✔ Saves 90%+ of exploratory token budget
+[ With Agent-Maintained Context Graph (.hase/context.md) ]
+Agent reads an existing navigation index, then checks relevant source before editing.
+Coverage and line bounds are stated honestly and refreshed after structural changes.
 ```
 
-Generate the AST graph in milliseconds with:
-```bash
-python tools/hase.py graph -o .hase/context.md
-```
+At task start, agents read `.hase/context.md` when present. If it is missing or stale, they inspect the relevant repository with workspace navigation, search, and language-server features, then update the file directly. See [`.hase/agent-workflow.md`](.hase/agent-workflow.md) for the format, accuracy limits, and refresh rules. An agent should not claim complete AST coverage unless its available tools actually established it.
 
-Example token-optimized output (`.hase/context.md`):
+Example context graph (`.hase/context.md`):
 ```markdown
-# CODEBASE AST TOPOLOGY GRAPH
-*Generated by HASE v7.0 AST Engine | 14 files indexed*
+# CODEBASE CONTEXT GRAPH
+*Agent-maintained | Updated: 2026-10-03 | Coverage: selected source modules; verify against source*
 
-## 1. Module Dependency Topology
+## 1. Module and dependency topology
 - `src/auth/service.py` -> [models, jwt, datetime, typing]
 - `src/api/routes.py` -> [fastapi, auth.service, db.session]
 
-## 2. AST Symbol Hierarchy
+## 2. Symbol hierarchy
 ### `src/auth/service.py` (Lines: 1-140)
-  - `class AuthService`: login(user, pass) -> Token, verify(token) -> bool, revoke(id) -> None
+  - `class AuthService`: login(user, password) -> Token, verify(token) -> bool, revoke(id) -> None
   - `def hash_password(plain: str) -> str` [L112-L135]
 ```
 
@@ -119,25 +112,12 @@ When an agent discovers a critical invariant during a task, it emits Line 3:
 [MEM: Network | Transient retry factor fixed at 2.0 with max 3 attempts]
 def fetch_url(url: str): ...
 ```
-This primes the KV cache to ensure all subsequent generations obey the discovered constraint.
+This provides a visible reminder of the discovered constraint; it does not alter model internals or guarantee future compliance.
 
 ### 2. Persistent Workspace Memory Ledger (`.hase/memory.json`)
 A structured memory ledger stored in `.hase/memory.json` tracking persistent architectural invariants and domain findings across sessions.
 
-Manage memory with the HASE CLI:
-```bash
-# List all recorded invariants and findings:
-python tools/hase.py memory list
-
-# Record an architectural finding:
-python tools/hase.py memory add --topic "Auth" --fact "Tokens expire in 15 mins; refresh token rotation active" --files src/auth/service.py
-
-# Record an immutable architectural invariant:
-python tools/hase.py memory invariant "Pure business logic must remain decoupled from infrastructural I/O"
-
-# Reset working memory:
-python tools/hase.py memory clear
-```
+The agent reads, validates, and edits this file through workspace tools: preserve existing entries, append only verified and reusable facts, and clear it only when explicitly requested. This is an agent-guided workflow, not a deterministic database or automatic background service. See [`.hase/agent-workflow.md`](.hase/agent-workflow.md) for the ledger schema and safeguards.
 
 ---
 
@@ -164,7 +144,7 @@ Compute the hexadecimal state token by bitwise OR (`|`) of all audited planes. I
 
 ## Adaptive Multi-Mode Protocol
 
-HASE v7.0 dynamically adapts its output protocol to match developer intent, preventing token waste across different development tasks:
+HASE v7.0 defines an output protocol for different developer tasks:
 
 ### Mode A: Full Component Implementation (New Files)
 Used when generating new files or complete modules:
@@ -176,7 +156,7 @@ Line 4+ (or 3+): Production code. Complete, runnable, zero stubs.
 ```
 
 ### Mode B: Surgical Code Modification (Edits, Patches, Bug Fixes)
-Used when modifying existing files. Eliminates the token-expensive anti-pattern of reprinting hundreds of lines of unchanged code:
+Used when modifying existing files. Encourages targeted edits instead of reprinting unchanged code:
 ```
 Line 1: [STATE: 0xXX]
 Line 2: [PLAN: Approach | Rationale | Risk -> Mitigation]
@@ -219,16 +199,13 @@ HASE/
 ├── .sourcegraph/
 │   └── hase.rule.md                <- Sourcegraph Cody Rules
 ├── .hase/
-│   ├── context.md                  <- AST Symbol Topology Graph
+│   ├── agent-workflow.md           <- Python-free graph and memory procedures
+│   ├── context.md                  <- Agent-maintained Codebase Context Graph
 │   └── memory.json                 <- Workspace Working Memory Ledger
 ├── templates/
 │   ├── hase-system-prompt.txt      <- Raw System Prompt (Hermes, Ollama, vLLM, OpenAI API)
 │   ├── hase-system-prompt.md       <- Markdown System Prompt (ChatGPT, Claude Projects)
-│   └── hase-compact.txt            <- Hyper-Compressed Edition (<200 tokens for local LLMs)
-├── tools/
-│   └── hase.py                     <- HASE CLI (calc, explain, verify, graph, memory, init)
-├── tests/
-│   └── test_hase.py                <- Automated Unit Test Suite (12 tests)
+│   └── hase-compact.txt            <- Compact prompt for low-context models
 ├── .cursorrules                    <- Fallback/Legacy Cursor Rules
 ├── .windsurfrules                  <- Windsurf Workspace Rules
 ├── .clinerules                     <- Cline & Roo Code Agent Rules
@@ -254,71 +231,31 @@ HASE/
 | **Sourcegraph Cody** | [`.sourcegraph/hase.rule.md`](.sourcegraph/hase.rule.md) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/.sourcegraph/hase.rule.md) | Rules for Cody's prompt assembly engine. |
 | **Raw APIs & Local LLMs** | [`templates/hase-system-prompt.txt`](templates/hase-system-prompt.txt) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-system-prompt.txt) | Plain-text prompt for OpenAI, Anthropic, Ollama, vLLM, or Groq completions. |
 | **Web UIs** | [`templates/hase-system-prompt.md`](templates/hase-system-prompt.md) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-system-prompt.md) | Formatted markdown for ChatGPT Custom Instructions or Claude Projects. |
-| **Hyper-Compact Edition** | [`templates/hase-compact.txt`](templates/hase-compact.txt) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-compact.txt) | <200 token edition for ultra-low context windows (Phi, Gemma 2B, Llama 8B). |
+| **Compact Edition** | [`templates/hase-compact.txt`](templates/hase-compact.txt) | [**Raw**](https://raw.githubusercontent.com/pakizito/HASE/main/templates/hase-compact.txt) | Short prompt for low-context models. |
 
 ---
 
-## The HASE Developer CLI (`tools/hase.py`)
+## Agent-Operated Toolkit (No Runtime Required)
 
-HASE includes a zero-dependency Python CLI tool for calculating bitmasks, decoding states, verifying agent compliance, generating AST topology graphs, and managing working memory.
+HASE has no CLI, runtime, package installation, or generated scripts. Ask an editor agent to perform these operations using its existing workspace tools. The shared procedures and ledger schema are in [`.hase/agent-workflow.md`](.hase/agent-workflow.md).
 
-### 1. Calculate a State Token
-```bash
-# Using plane flags:
-python tools/hase.py calc --arch --fault --perf --idiom
-# Output: State Byte: 0x4D (Decimal: 77, Binary: 0b1001101)
+| Former toolkit operation | Python-free equivalent |
+| :--- | :--- |
+| `calc` | Ask the agent to OR the selected plane values and report hex, decimal, binary, and active planes. Example: `arch + fault + perf + idiom` → `0x4D` (77, `0b1001101`). |
+| `explain` | Ask the agent to validate a byte in `0..255` and list active/inactive planes plus the test mandate. |
+| `matrix` | Read the complete eight-plane matrix in this README. |
+| `verify` | Ask the agent to inspect the HASE headers, plan segments, placeholder policy, and actual companion tests. This is a review, not a deterministic CI check or proof of correctness. |
+| `graph` / `sync` | Ask the agent to inspect source/language-server symbols and update `.hase/context.md`; optionally request the documented best-effort `graph.json` format. State coverage and limitations. |
+| `memory list/add/invariant/clear` | Ask the agent to read or edit `.hase/memory.json`. Preserve existing data; clear only on explicit request. |
+| `init` | Ask the agent to install selected instruction files, add `.hase/agent-workflow.md`, and initialize missing graph/ledger files in another open workspace. Preserve existing files and obtain confirmation before replacing them. |
 
-# Using decimal or hex numbers:
-python tools/hase.py calc 1 4 8 64
-```
-
-### 2. Decode & Audit an Active State
-```bash
-python tools/hase.py explain 0x4D
-```
-
-### 3. One-Command Sync: AST Graph & Memory Ledger
-```bash
-# Refreshes .hase/context.md and ensures .hase/memory.json is initialized:
-python tools/hase.py sync
-```
-
-### 4. Generate AST Codebase Graph (Custom Output)
-```bash
-# Generate compact Markdown topology for agent context:
-python tools/hase.py graph -o .hase/context.md
-
-# Or generate machine-readable JSON:
-python tools/hase.py graph --json -o .hase/graph.json
-```
-
-### 5. Manage Working Memory & Invariants
-```bash
-# List all active invariants and findings:
-python tools/hase.py memory list
-
-# Record an architectural finding:
-python tools/hase.py memory add --topic "Database" --fact "All queries must use read-replica connection pool" --files src/db/pool.py
-
-# Record an invariant:
-python tools/hase.py memory invariant "Zero mutable state outside of actor mailboxes"
-```
-
-### 6. Verify Model Output Compliance (CI/CD Ready)
-```bash
-python tools/hase.py verify "[STATE: 0x4D]\n[PLAN: Bounded backoff | Network recovery | Starvation -> Max retry cap]\n..."
-# Returns exit code 0 if compliant, 1 with diagnostic errors if violated.
-```
-
-### 7. Install HASE into Any Target Project
-```bash
-# Install rules and initialize .hase in target workspace:
-python tools/hase.py init --target /path/to/my-project --tools all
-```
+These operations are model-guided and depend on the host editor's capabilities; unlike the removed CLI they are not deterministic, scriptable checks. A host with workspace file access can edit the graph and ledger directly; without write access, an agent can only propose edits in its response. Symbol extraction precision depends on available language services. HASE itself requires no Python installation.
 
 ---
 
 ## Few-Shot Multi-Language Compilation Library
+
+These are examples of generated target-language code, not HASE tooling dependencies; HASE itself has no runtime requirement.
 
 ### Example 1: Resilient HTTP Client in Python
 * **Assessment:** Macro-Architecture (`0x01`) + Fault-Tolerance (`0x04`) + Performance (`0x08`) + Idiomatic Alignment (`0x40`) = `1 + 4 + 8 + 64 = 77` = **`0x4D`**
@@ -444,20 +381,17 @@ export class OrderStateMachine {
 
 ## Frequently Asked Questions (FAQ)
 
-### 1. What if smaller LLMs make mental math mistakes on hex calculation?
-HASE explicitly instructs models to sum the decimal numbers first (`1 + 4 + 8 + 64 = 77`) and convert to hex (`0x4D`). Modern LLMs (including 7B/8B models like Llama 3, Gemma 2, Mistral, and Qwen) excel at small integer addition. Even if a smaller model emits `0x4C` instead of `0x4D`, the self-attention priming effect is 99% preserved because the model computed the plane activations.
+### 1. What if an agent makes a state-byte arithmetic mistake?
+Verify the byte against the plane table. For example, `arch | fault | perf | idiom` is `1 | 4 | 8 | 64 = 77 = 0x4D`. HASE no longer includes an executable calculator or deterministic verifier.
 
-### 2. How does the AST Codebase Graph save tokens?
-Instead of an agent making 5-10 exploratory tool calls (`grep`, `find`, reading multiple files) consuming 5,000+ tokens to locate a function or understand an interface, the agent reads `.hase/context.md` (under 250 tokens) and immediately knows every symbol, signature, and file line range in the codebase.
+### 2. How does the context graph help navigation?
+`.hase/context.md` is a compact, agent-maintained index of selected modules and symbols. It can reduce repeated exploration, but it is not an AST, may be incomplete or stale, and must be checked against source. Coverage depends on workspace and language-server support.
 
-### 3. How does HASE save tokens during interactive file edits?
-Under **Mode B (Surgical Modification)**, HASE instructs the assistant to emit targeted replacement chunks with context anchors instead of dumping entire files. In an editing session on a 400-line file, this saves ~1,500 output tokens per interaction and prevents truncation timeouts.
+### 3. What does Mode B change?
+Mode B asks the assistant to provide targeted edits with context anchors instead of repeating unchanged files. Actual output size and savings vary by model and task.
 
-### 4. How do I test HASE locally?
-Run the built-in test suite:
-```bash
-python -m unittest discover tests
-```
+### 4. Does HASE require Python or another runtime?
+No. HASE consists of instructions, templates, and workspace Markdown/JSON files. Graph and memory procedures are carried out by the editor agent; they are not automated commands or deterministic CI checks.
 
 ---
 

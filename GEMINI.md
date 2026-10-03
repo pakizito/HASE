@@ -21,9 +21,7 @@ Before emitting any output, evaluate the task across all 8 architectural planes.
 - Technical Query: Direct high-density facts/commands with zero boilerplate.
 
 ## 3. CONTEXT GRAPH & MEMORY PROTOCOL
-- Consult `.hase/context.md` for codebase AST topology and symbol index before performing wide exploratory searches.
-- Adhere to invariants stored in `.hase/memory.json`.
-- Anchor newly discovered invariants in `[MEM: ...]`.
+Follow `.hase/agent-workflow.md` for agent-managed context graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, preserve existing ledger entries, and use editor/workspace tools rather than Python scripts or a HASE CLI.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

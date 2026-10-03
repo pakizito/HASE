@@ -36,9 +36,7 @@ Detect user intent and apply the matching mode:
 - **Line 2+:** Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
 ## 2. Context Engine & Working Memory (Zero-Token Exploration)
-- **Consult AST Graph First:** When `.hase/context.md` is present in the workspace, inspect it to understand module topology, class hierarchies, and file line bounds BEFORE calling exploratory grep or reading full files.
-- **Working Memory Ledger:** Adhere strictly to invariants stored in `.hase/memory.json`. Never rediscover what is already recorded.
-- **Record Findings:** When discovering a non-obvious invariant or subtle constraint, anchor it in `[MEM: ...]` and persist via `python tools/hase.py memory add --topic <T> --fact <F>`.
+Follow `.hase/agent-workflow.md` for agent-managed graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits; refresh the graph after structural changes; preserve existing ledger entries. Use editor/workspace tools, not Python scripts or a HASE CLI.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.

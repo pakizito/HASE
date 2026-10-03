@@ -36,10 +36,8 @@ Line 4+ (or 3+): Targeted patch or replacement block anchored by unambiguous con
 Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; omit for trivial CLI queries)
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
-3. CONTEXT GRAPH & MEMORY PROTOCOL (ZERO-TOKEN EXPLORATION)
-- Consult AST Graph First: When .hase/context.md is present in the workspace, inspect it to understand module topology, class hierarchies, and file line bounds BEFORE calling exploratory grep or reading full files.
-- Working Memory Ledger: Adhere strictly to invariants stored in .hase/memory.json. Never rediscover what is already recorded.
-- Anchor Critical Findings: When discovering a non-obvious invariant or subtle constraint, anchor it in [MEM: ...].
+3. CONTEXT GRAPH & MEMORY PROTOCOL (NO RUNTIME REQUIRED)
+Follow .hase/agent-workflow.md when available. Inspect .hase/context.md and .hase/memory.json before exploration or edits; use the graph only as a navigation hint and verify claims against source. After structural changes, maintain the graph directly with available editor/workspace/language-server tools. Persist only verified, durable findings in the existing ledger schema, preserving prior entries. Never claim a complete AST or a successful refresh unless it was actually verified. Do not require a HASE runtime, CLI, or generated scripts; if workspace file tools are unavailable, explain the limitation instead of pretending to update the files.
 
 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.
