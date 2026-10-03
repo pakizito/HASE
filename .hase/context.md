@@ -9,7 +9,7 @@
 ### `tests/test_hase.py` (Lines: 1-156)
   - `class TestHaseCore(unittest.TestCase)` [L15-L151]: test_format_hex_byte(), test_calc_state(), test_explain_state(), test_parse_state_int(), test_verify_output_success()
 
-### `tools/hase.py` (Lines: 1-741)
+### `tools/hase.py` (Lines: 1-759)
   - `class PySymbolExtractor(ast.NodeVisitor)` [L162-L222]: __init__() -> None, visit_Import(node) -> None, visit_ImportFrom(node) -> None, visit_ClassDef(node) -> None, visit_FunctionDef(node) -> None
   - `def format_hex_byte(val: int) -> str` [L58-L60]
   - `def calc_state(selected_bits: List[int]) -> int` [L63-L68]
@@ -26,4 +26,4 @@
   - `def add_memory_invariant(workspace_path: Path, rule: str) -> str` [L434-L440]
   - `def clear_memory(workspace_path: Path) -> None` [L443-L451]
   - `def install_rules(repo_root: Path, target_dir: Path, tools: List[str]) -> List[str]` [L458-L504]
-  - `def main() -> int` [L511-L737]
+  - `def main() -> int` [L511-L755]

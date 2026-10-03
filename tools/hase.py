@@ -563,6 +563,10 @@ def main() -> int:
 
     p_mem_sub.add_parser("clear", help="Clear working memory findings.")
 
+    # Command: sync
+    p_sync = subparsers.add_parser("sync", help="One-command sync: regenerate .hase/context.md and ensure .hase/memory.json is initialized.")
+    p_sync.add_argument("--target", "-t", default=".", help="Target project root directory (default: current directory)")
+
     # Command: init
     p_init = subparsers.add_parser("init", help="Install HASE rules into a target project directory.")
     p_init.add_argument("--target", "-t", default=".", help="Target project root directory (default: current directory)")
@@ -723,6 +727,21 @@ def main() -> int:
             clear_memory(workspace)
             print("Workspace memory cleared.")
             return 0
+
+    elif args.command == "sync":
+        target = Path(args.target).resolve()
+        hase_dir = target / ".hase"
+        hase_dir.mkdir(parents=True, exist_ok=True)
+        mem = load_memory(target)
+        save_memory(target, mem)
+        graph = build_ast_graph(target)
+        context_md = export_compact_graph(graph)
+        out_path = hase_dir / "context.md"
+        out_path.write_text(context_md, encoding="utf-8")
+        print("HASE Sync Complete:")
+        print(f"  -> AST Topology Graph: {out_path} ({graph['total_files']} files indexed)")
+        print(f"  -> Memory Ledger: {get_memory_file(target)} ({len(mem.get('findings', []))} findings, {len(mem.get('invariants', []))} invariants)")
+        return 0
 
     elif args.command == "init":
         repo_root = Path(__file__).resolve().parent.parent

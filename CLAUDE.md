@@ -39,10 +39,15 @@ Detect user intent and apply the corresponding mode:
 
 *PLAN Constraints:* Exactly one line. Name the design pattern, why it was chosen over variants, the primary failure mode, and the explicit structural mitigation.
 
-## 2. Context Engine & Working Memory (Zero-Token Exploration)
-1. **Consult AST Graph First:** When `.hase/context.md` is present, inspect it to understand module topology, class hierarchies, and file line bounds BEFORE calling exploratory grep or viewing large files.
-2. **Memory Invariants:** Adhere strictly to invariants stored in `.hase/memory.json`. Never rediscover what is already recorded.
-3. **Record Findings:** When discovering a non-obvious invariant or subtle constraint, anchor it in `[MEM: ...]` and persist via `python tools/hase.py memory add --topic <T> --fact <F>`.
+## 2. Autonomous Context Engine & Working Memory
+You are solely responsible for maintaining your codebase topology and working memory. Never expect the user to run graph or memory commands manually:
+1. **Turn-1 Initialization:** If `.hase/context.md` is absent, immediately run `python tools/hase.py sync` before performing any exploratory searches.
+2. **Zero-Token Navigation:** Always consult `.hase/context.md` first to locate exact files, line numbers, and symbol signatures. Do not run broad exploratory greps or read full files when the graph already provides the target bounds.
+3. **Proactive Graph Refresh:** Whenever you create new files, alter module structures, or complete a feature, proactively run `python tools/hase.py sync` to keep the AST graph current.
+4. **Autonomous Memory Recording:** When discovering non-obvious invariants, domain constraints, or subtle failure modes:
+   - Anchor it on Line 3: `[MEM: Topic | Relevant Finding or Invariant]`
+   - Persist it immediately via `python tools/hase.py memory add --topic <T> --fact <F>` or `python tools/hase.py memory invariant "<Rule>"`.
+5. **Invariant Adherence:** Strictly follow all architectural rules stored in `.hase/memory.json`. Never rediscover what is already recorded.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.
@@ -54,6 +59,7 @@ Detect user intent and apply the corresponding mode:
 
 ## 4. Project Commands & Tooling
 - Run HASE test suite: `python -m unittest discover tests`
+- One-command Context & Memory Sync: `python tools/hase.py sync`
 - Generate/Refresh AST Graph: `python tools/hase.py graph -o .hase/context.md`
 - Query/Manage Memory Ledger: `python tools/hase.py memory list`
 - Calculate bitmask: `python tools/hase.py calc --arch --fault --perf --idiom`

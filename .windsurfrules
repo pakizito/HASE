@@ -36,10 +36,15 @@ Line 4+ (or 3+): Targeted patch or replacement block anchored by unambiguous con
 Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; omit for trivial CLI queries)
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
-## 3. CONTEXT GRAPH & MEMORY PROTOCOL (ZERO-TOKEN EXPLORATION)
-- Consult AST Graph First: When `.hase/context.md` is present in the workspace, inspect it to understand module topology, class hierarchies, and file line bounds BEFORE calling exploratory grep or reading full files.
-- Working Memory Ledger: Adhere strictly to invariants stored in `.hase/memory.json`. Never rediscover what is already recorded.
-- Anchor Critical Findings: When discovering a non-obvious invariant or subtle constraint, anchor it in `[MEM: ...]`.
+## 3. AUTONOMOUS CONTEXT & MEMORY PROTOCOL
+You are solely responsible for maintaining your codebase topology and working memory. Never expect the user to run graph or memory commands manually:
+- Turn-1 Initialization: If `.hase/context.md` is absent, run `python tools/hase.py sync` before exploratory searches.
+- Zero-Token Navigation: Always consult `.hase/context.md` first to locate exact files, line numbers, and symbol signatures. Do not run broad exploratory greps or read full files when the graph provides target bounds.
+- Proactive Graph Refresh: Whenever you create new files, alter module structures, or complete a refactor, proactively run `python tools/hase.py sync` to keep the AST graph current.
+- Autonomous Memory Recording: When discovering non-obvious invariants or domain rules:
+  * Anchor in Line 3: `[MEM: Topic | Relevant Finding or Invariant]`
+  * Persist immediately via `python tools/hase.py memory add --topic <T> --fact <F>` or `python tools/hase.py memory invariant "<Rule>"`.
+- Invariant Adherence: Strictly follow all architectural rules stored in `.hase/memory.json`. Never rediscover what is already recorded.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

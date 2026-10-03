@@ -277,7 +277,13 @@ python tools/hase.py calc 1 4 8 64
 python tools/hase.py explain 0x4D
 ```
 
-### 3. Generate AST Codebase Graph (Zero-Token Exploration)
+### 3. One-Command Sync: AST Graph & Memory Ledger
+```bash
+# Refreshes .hase/context.md and ensures .hase/memory.json is initialized:
+python tools/hase.py sync
+```
+
+### 4. Generate AST Codebase Graph (Custom Output)
 ```bash
 # Generate compact Markdown topology for agent context:
 python tools/hase.py graph -o .hase/context.md
@@ -286,7 +292,7 @@ python tools/hase.py graph -o .hase/context.md
 python tools/hase.py graph --json -o .hase/graph.json
 ```
 
-### 4. Manage Working Memory & Invariants
+### 5. Manage Working Memory & Invariants
 ```bash
 # List all active invariants and findings:
 python tools/hase.py memory list
@@ -298,13 +304,13 @@ python tools/hase.py memory add --topic "Database" --fact "All queries must use 
 python tools/hase.py memory invariant "Zero mutable state outside of actor mailboxes"
 ```
 
-### 5. Verify Model Output Compliance (CI/CD Ready)
+### 6. Verify Model Output Compliance (CI/CD Ready)
 ```bash
 python tools/hase.py verify "[STATE: 0x4D]\n[PLAN: Bounded backoff | Network recovery | Starvation -> Max retry cap]\n..."
 # Returns exit code 0 if compliant, 1 with diagnostic errors if violated.
 ```
 
-### 6. Install HASE into Any Target Project
+### 7. Install HASE into Any Target Project
 ```bash
 # Install rules and initialize .hase in target workspace:
 python tools/hase.py init --target /path/to/my-project --tools all

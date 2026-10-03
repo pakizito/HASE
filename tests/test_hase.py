@@ -150,6 +150,24 @@ def fetch(url: str):
             mem_cleared = load_memory(workspace)
             self.assertEqual(len(mem_cleared["findings"]), 0)
 
+    def test_sync_command_flow(self):
+        import tempfile
+        from hase import build_ast_graph, export_compact_graph, load_memory, save_memory
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            workspace = Path(tmp_dir)
+            p = workspace / "service.py"
+            p.write_text("class Service:\n    def execute(self):\n        pass\n", encoding="utf-8")
+            hase_dir = workspace / ".hase"
+            hase_dir.mkdir(parents=True, exist_ok=True)
+            mem = load_memory(workspace)
+            save_memory(workspace, mem)
+            graph = build_ast_graph(workspace)
+            (hase_dir / "context.md").write_text(export_compact_graph(graph), encoding="utf-8")
+
+            self.assertTrue((hase_dir / "context.md").exists())
+            self.assertTrue((hase_dir / "memory.json").exists())
+            self.assertIn("class Service", (hase_dir / "context.md").read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()
