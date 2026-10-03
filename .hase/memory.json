@@ -1,0 +1,18 @@
+{
+  "version": "7.0",
+  "updated_at": "2026-10-03T09:25:54.951663+00:00",
+  "findings": [
+    {
+      "id": "f-001",
+      "topic": "AST",
+      "fact": "ast.parse handles Python AST while regex extractor handles JS/TS/Go/Rust",
+      "files": [
+        "tools/hase.py"
+      ],
+      "recorded_at": "2026-10-03T09:25:54.951150+00:00"
+    }
+  ],
+  "invariants": [
+    "Pure logic must remain decoupled from infrastructural I/O"
+  ]
+}
