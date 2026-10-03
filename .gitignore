@@ -4,7 +4,7 @@ ehthumbs.db
 Desktop.ini
 .DS_Store
 
-# IDE and Editor settings (excluding specific custom instructions we track)
+# IDE and editor settings (excluding the HASE instruction files)
 .idea/
 .vscode/
 *.suo
@@ -13,3 +13,15 @@ Desktop.ini
 *.sln
 *.swp
 *~
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+
+# Local environments
+.venv/
+venv/
+env/
+
+# Generated repository-specific Python context
+.hase/context.md
