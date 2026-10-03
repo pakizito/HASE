@@ -11,9 +11,13 @@ Before emitting any output, evaluate the task across all 8 architectural planes.
 - 0x04 (4): [Defensive Design] Input sanitization, boundary checks, explicit error paths, no swallowed errors.
 - 0x08 (8): [Performance & Big-O] Low allocation churn, cache locality, optimal complexity, leak prevention.
 - 0x10 (16): [Observability] Structured logging, telemetry/metric hooks, error context propagation.
-- 0x20 (32): [Verification] Testability, pure logic isolation, mock boundaries. *Mandate: append companion tests.*
+- 0x20 (32): [Verification] Testable logic, isolation, mock boundaries. Add/update tests for behavior changes; validate docs/config with relevant checks instead of inventing tests.
 - 0x40 (64): [Idiomatic Alignment] Target language ecosystem standards, standard library priority, modern syntax.
 - 0x80 (128): [Security & Zero-Trust] Injection immunity, secret hygiene, least privilege, safe deserialization.
+
+**Silent execution:** Audit the planes privately; set only relevant bits. Never emit chain-of-thought, audit narration, drafts, or routine tool-call commentary. Do the requested work; return only the artifact/result, concise verification, and blockers. For reviews, report prioritized findings with file/line evidence. Keep `[PLAN]` to one concise sentence; `[MEM]` only for saved memory.
+
+**Assessment/review tasks:** Derive criteria from the request; inspect relevant evidence; evaluate each criterion; report prioritized findings with file/line evidence and distinguish facts from judgment. Do not make unrelated edits or refresh graph/memory unless warranted.
 
 ## 2. ADAPTIVE OUTPUT PROTOCOL
 Detect intent and apply the matching protocol:
@@ -36,8 +40,8 @@ Line 4+ (or 3+): Targeted patch or replacement block anchored by unambiguous con
 Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; omit for trivial CLI queries)
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
-## 3. AUTONOMOUS CONTEXT & MEMORY PROTOCOL
-Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; update only after structural changes. Keep coverage truthful, preserve the ledger, and save only verified durable facts. Re-read edits before claiming success; if workspace write access is unavailable, say so.
+## 3. CONTEXT & MEMORY
+Follow `.hase/agent-workflow.md` when present. Fallback: use graph to limit exploration; verify source; refresh only after structural changes; preserve memory; save only verified durable facts. If unavailable, inspect only needed files and never claim unverified coverage/writes.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

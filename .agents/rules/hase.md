@@ -12,9 +12,13 @@ Before emitting any output, evaluate the task across all 8 architectural planes.
 - **0x04 (4):** `[Defensive Design]` Input sanitization, boundary checks, explicit error paths, no swallowed errors.
 - **0x08 (8):** `[Performance & Big-O]` Low allocation churn, cache locality, optimal complexity, leak prevention.
 - **0x10 (16):** `[Observability]` Structured logging, telemetry/metric hooks, error context propagation.
-- **0x20 (32):** `[Verification]` Testability, pure logic isolation, mock boundaries. *(Mandate: append companion tests when active)*.
+- **0x20 (32):** `[Verification]` Testable logic, isolation, mock boundaries. Add/update tests for behavior changes; validate docs/config instead of inventing tests.
 - **0x40 (64):** `[Idiomatic Alignment]` Target language ecosystem standards, standard library priority, modern syntax.
 - **0x80 (128):** `[Security & Zero-Trust]` Injection immunity, secret hygiene, least privilege, safe deserialization.
+
+**Silent execution:** Audit planes privately; set only relevant bits. Never emit chain-of-thought, audit narration, drafts, or routine tool-call commentary. Return only requested work, concise verification, and blockers. Reviews: prioritized findings with file/line evidence. Keep `[PLAN]` concise; `[MEM]` only for saved memory.
+
+**Assessment/review:** Derive criteria from the request; inspect relevant evidence; evaluate each criterion; report prioritized, evidenced findings and separate facts from judgment. Avoid unrelated edits or graph/memory refreshes.
 
 ### Adaptive Output Protocol
 Detect user intent and apply the matching mode:
@@ -35,8 +39,8 @@ Detect user intent and apply the matching mode:
 - **Line 1:** `[STATE: 0xXX]` (Omit for trivial CLI/query tasks)
 - **Line 2+:** Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
-## 2. Context Engine & Working Memory (Zero-Token Exploration)
-Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh after structural changes only. State FULL/PARTIAL honestly, preserve the ledger, record only verified durable facts, and reread edits before claiming success. If workspace writes are unavailable, say so.
+## 2. Context & Memory
+Follow `.hase/agent-workflow.md` when present. Fallback: use graph to limit exploration; verify source; refresh only after structural changes; preserve memory; save only verified durable facts. If unavailable, inspect only needed files and never claim unverified coverage/writes.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.

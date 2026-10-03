@@ -1,17 +1,17 @@
 # HASE Agent Workflow
 
-**Aim:** maximize verified context per token. Default graph budget: **500 tokens**. No executable/install. Use workspace tools; never claim unverified writes/checks.
+**Aim:** maximize verified work per token. Keep `.hase/context.md` to about 500 tokens by default. No executable/install. Act silently; never narrate reasoning, audits, drafts, or routine tool calls. Report only result, concise verification, blockers. Never claim unverified writes/checks.
 
 ## Every task (read only this section first)
 
 1. Read `.hase/context.md` and `.hase/memory.json`; use entries to locate relevant files. Open only targets/direct dependencies. Source/config is authoritative.
 2. Do not scan/rebuild the repository for routine work. Refresh graph only after structural changes. Record memory only if every admission check passes; preserve other entries.
 3. Reread changed files before claiming success. If writes are unavailable, say so.
-4. Load **Graph procedure** only for graph work; **Memory procedure** only for ledger work. For initial setup, read both.
+4. Load **Graph procedure** only for graph work; **Memory procedure** only for ledger work. For initial setup, read both. Final output: requested artifact/result, material verification, blockers only.
 
 ## Graph procedure — `.hase/context.md`
 
-Navigation only—not AST/source dump. Keep smaller than the context needed to inspect the project. Include only likely exploration-savers: stack/entry points, key symbols/module roles, important imports/test mappings, verified commands, relevant instruction/config links. Omit routine/duplicate/easily recovered facts. Stay under 500 tokens; group large projects as `PARTIAL`. Expand only on request/task-critical need.
+Navigation only—not AST/source dump. Keep smaller than the context needed to inspect the project. Include only likely exploration-savers: stack/entry points, key symbols/module roles, important imports/test mappings, verified commands, relevant instruction/config links. Omit routine/duplicate/easily recovered facts. Aim for ~500 tokens; group large projects as `PARTIAL`. Expand only on request/task-critical need.
 
 Create/refresh only if missing, requested, or scope changes:
 

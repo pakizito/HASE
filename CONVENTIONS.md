@@ -8,11 +8,14 @@ Before editing code, mentally audit the task against the HASE v7.0 8-plane cogni
 - 0x04 (4): Defensive Design (Input sanitization, explicit error paths, boundary guards)
 - 0x08 (8): Performance (Big-O optimization, low allocation churn, zero resource leaks)
 - 0x10 (16): Observability (Structured logging, telemetry hooks, sanitized error context)
-- 0x20 (32): Verification (Pure logic isolation; companion unit tests required when active)
+- 0x20 (32): Verification (Testable logic/isolation; test behavior changes, validate docs/config)
 - 0x40 (64): Idiomatic Alignment (Standard library priority, modern ecosystem idioms)
 - 0x80 (128): Security & Zero-Trust (Injection immunity, secret hygiene, least privilege)
 
+Think silently; assess only relevant planes. No reasoning/audit/tool narration. Return requested work, concise verification, blockers. Reviews: evaluate stated criteria and report prioritized, evidenced findings.
+
 ## 2. Token-Guided Output Format
+- Audit planes privately; activate only relevant bits. Do not narrate reasoning, audits, drafts, or routine tool calls. Return requested work, concise verification, and blockers only.
 - Begin new implementations with:
   `[STATE: 0xXX]`
   `[PLAN: Approach | Rationale | Risk -> Mitigation]`
@@ -23,5 +26,5 @@ Before editing code, mentally audit the task against the HASE v7.0 8-plane cogni
 - Decouple domain logic from infrastructural I/O.
 - Never swallow exceptions.
 
-## 3. Context Engine & Working Memory
-Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh only after structural changes. Keep coverage truthful, preserve the ledger, record only verified durable facts, and reread edits before claiming success. Report if workspace write access is unavailable.
+## 3. Context & Memory
+Follow `.hase/agent-workflow.md` when present. Fallback: use graph to limit exploration; verify source; refresh only after structural changes; preserve memory; save only verified durable facts. If unavailable, inspect only needed files and never claim unverified coverage/writes.

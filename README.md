@@ -10,6 +10,8 @@
 
 HASE provides a compact prompt protocol for considering 8 architectural dimensions. Results depend on the model and host tools; the format does not guarantee correctness or token savings.
 
+**Operating rule:** think and use tools silently. Do not expose internal reasoning, audit narration, drafts, or routine tool calls. Return requested work, concise verification, and blockers only; for assessments, report prioritized evidence-based findings.
+
 ---
 
 ## Compact Agent Protocol
@@ -27,9 +29,11 @@ The agent uses these visible response conventions:
 1. **Line 1: `[STATE: 0xXX]`** — A 1-byte hexadecimal bitmask encoding which of the 8 architectural planes were audited.
 2. **Line 2: `[PLAN: Approach | Rationale | Risk -> Mitigation]`** — A strict, pipe-delimited architectural matrix committing to the pattern, the justification, and the failure-mode countermeasure.
 3. **Line 3 (Conditional): `[MEM: Topic | Relevant Finding or Invariant]`** — An optional working memory anchor when critical discoveries or constraints are uncovered.
-4. **Line 4+ (or Line 3+):** Immediate production-grade code, surgical diff, or technical diagnostic.
+4. **Line 4+ (or Line 3+):** Requested code, surgical edit, assessment, or concise technical answer. Do not expose internal reasoning.
 
 The header makes the checklist and plan easier to inspect; correctness still requires source review and tests.
+
+Agents should perform audits and tool work silently. Return the requested result, brief verification, and blockers—not internal reasoning, audit logs, drafts, or routine tool narration.
 
 ---
 
@@ -98,7 +102,7 @@ Compute the hexadecimal state token by bitwise OR (`|`) of all audited planes. I
 | **2** | `0x04` | 4 | **Defensive Design** | Input sanitization, boundary checks, explicit error paths, no swallowed errors. |
 | **3** | `0x08` | 8 | **Performance & Big-O** | Low allocation churn, cache locality, optimal complexity, leak prevention. |
 | **4** | `0x10` | 16 | **Observability** | Structured logging, telemetry/metric hooks, error context propagation. |
-| **5** | `0x20` | 32 | **Verification & Testing**| Pure logic isolation, mock boundaries. *Mandate: companion unit tests required.* |
+| **5** | `0x20` | 32 | **Verification & Testing**| Testable logic and isolation; verify behavior changes with tests and docs/config with relevant checks. |
 | **6** | `0x40` | 64 | **Idiomatic Alignment** | Target language ecosystem standards, standard library priority, modern syntax. |
 | **7** | `0x80` | 128 | **Security & Zero-Trust** | Injection immunity, secret hygiene, least privilege, safe deserialization. |
 

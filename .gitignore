@@ -13,11 +13,3 @@ Desktop.ini
 *.sln
 *.swp
 *~
-
-# Local environments
-.venv/
-venv/
-env/
-
-# Editor-agent caches
-.copilot-cache/

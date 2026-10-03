@@ -1,6 +1,6 @@
 {
   "version": "7.0",
-  "updated_at": "2026-10-03T15:13:30Z",
+  "updated_at": "2026-10-03T15:51:51Z",
   "findings": [
     {
       "id": "f-001",
@@ -11,7 +11,7 @@
         ".hase/context.md",
         "README.md"
       ],
-      "recorded_at": "2026-10-03T15:13:30Z"
+      "recorded_at": "2026-10-03T15:51:51Z"
     }
   ],
   "invariants": [
