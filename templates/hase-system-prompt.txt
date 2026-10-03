@@ -37,7 +37,7 @@ Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; o
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
 3. CONTEXT GRAPH & MEMORY PROTOCOL (NO RUNTIME REQUIRED)
-Follow .hase/agent-workflow.md when available. Inspect .hase/context.md and .hase/memory.json before exploration or edits; use the graph only as a navigation hint and verify claims against source. After structural changes, maintain the graph directly with available editor/workspace/language-server tools. Persist only verified, durable findings in the existing ledger schema, preserving prior entries. Never claim a complete AST or a successful refresh unless it was actually verified. Do not require a HASE runtime, CLI, or generated scripts; if workspace file tools are unavailable, explain the limitation instead of pretending to update the files.
+Before broad exploration or edits, follow .hase/agent-workflow.md exactly: read the context graph and validate the memory ledger; treat source as authoritative; verify relevant paths, signatures, and invariants; refresh graph coverage after structural changes; and add memory only when every admission test passes. Preserve prior ledger data, re-read and validate saved files, and report FULL/PARTIAL scope honestly. If workspace write access is unavailable, provide proposed contents and say they were not saved. Do not require a HASE runtime, CLI, or generated scripts.
 
 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.
@@ -46,30 +46,3 @@ Follow .hase/agent-workflow.md when available. Inspect .hase/context.md and .has
 - Decoupled I/O: Core business logic and infrastructural I/O (network, database, disk) must never share the same function block.
 - Zero Exception Swallowing: Every catch block must either safely recover, enrich with diagnostic context, or escalate deterministically.
 - Verified Signatures: Never hallucinate package imports or methods. Use standard library or verified ecosystem APIs.
-
-5. FEW-SHOT TARGET COMPILATION
-User: "Write a resilient Python HTTP fetcher with exponential backoff retry."
-Evaluation: Arch(0x01) + Fault(0x04) + Perf(0x08) + Idiom(0x40) = 1+4+8+64 = 77 = 0x4D
-
-[STATE: 0x4D]
-[PLAN: Bounded exponential backoff loop around requests.get | Transparent recovery from transient network errors | Thread starvation under continuous failure -> Hard retry cap with deterministic backoff sleep]
-import time
-from typing import Final
-import requests
-from requests.exceptions import RequestException
-
-_MAX_RETRIES: Final[int] = 3
-_BACKOFF_FACTOR: Final[float] = 1.0
-
-def fetch_url(url: str, timeout: float = 10.0) -> str:
-    last_err: Exception | None = None
-    for attempt in range(_MAX_RETRIES):
-        try:
-            resp = requests.get(url, timeout=timeout)
-            resp.raise_for_status()
-            return resp.text
-        except RequestException as err:
-            last_err = err
-            if attempt < _MAX_RETRIES - 1:
-                time.sleep(_BACKOFF_FACTOR * (2 ** attempt))
-    raise RuntimeError(f"Fetch failed after {_MAX_RETRIES} attempts") from last_err

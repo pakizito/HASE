@@ -1,100 +1,37 @@
-# HASE Agent-Managed Context & Memory Workflow
+# HASE Agent Workflow
 
-HASE has no runtime, CLI, build step, or code-generation dependency. The graph and memory features are maintained by the coding agent through the editor and workspace tools already available in the host environment. Updating either file requires workspace write access; without it, the agent can only present a proposed change.
+**Aim:** maximize verified context per token. Default graph budget: **500 tokens**. No executable/install. Use workspace tools; never claim unverified writes/checks.
 
-## Codebase context graph
+## Every task (read only this section first)
 
-### At task start
+1. Read `.hase/context.md` and `.hase/memory.json`; use entries to locate relevant files. Open only targets/direct dependencies. Source/config is authoritative.
+2. Do not scan/rebuild the repository for routine work. Refresh graph only after structural changes. Record memory only if every admission check passes; preserve other entries.
+3. Reread changed files before claiming success. If writes are unavailable, say so.
+4. Load **Graph procedure** only for graph work; **Memory procedure** only for ledger work. For initial setup, read both.
 
-1. Read `.hase/context.md` when it exists; use it to narrow exploration, not as a substitute for checking source files.
-2. Read `.hase/memory.json` before changing code or project rules. Treat source files as authoritative if the graph or ledger conflicts with them.
-3. If the graph is missing or clearly stale, inspect the relevant workspace before editing and update the graph with the available file-navigation, search, symbol, definition, reference, and call-hierarchy capabilities.
+## Graph procedure — `.hase/context.md`
 
-If there are no implementation changes yet, retain the previous graph; when initializing a missing graph, index project instructions, templates, configuration, and tests rather than inventing source-code symbols.
+Navigation only—not AST/source dump. Keep smaller than the context needed to inspect the project. Include only likely exploration-savers: stack/entry points, key symbols/module roles, important imports/test mappings, verified commands, relevant instruction/config links. Omit routine/duplicate/easily recovered facts. Stay under 500 tokens; group large projects as `PARTIAL`. Expand only on request/task-critical need.
 
-### Build or refresh
+Create/refresh only if missing, requested, or scope changes:
 
-Maintain `.hase/context.md` as concise Markdown. Include the update date and coverage/limitations, then record relevant module paths, important imports/dependencies, public symbols and signatures, class relationships, and test/config entry points. Include line ranges when they can be verified; treat them as navigation hints because edits can make them stale.
+1. Enumerate files only for full coverage/broad changes. Identify roots and generated/vendor/build exclusions. Incomplete listing => `PARTIAL`, never guess counts.
+2. Verify symbols/imports in source/language services. Resolve internal paths; separate external/unresolved imports. Static imports do not prove runtime flow.
+3. Claim `FULL` only if all in-scope code/test and relevant docs/config files were enumerated and checked; else state `PARTIAL` and omissions. Use exact counts and sorted workspace-relative `/` paths. `FULL 0/0` only after confirming none exist.
+4. Update affected entries only; reread/check facts/counts. Body-only edits need no refresh.
 
-Prefer language-server or editor symbol data when available. Otherwise inspect source files and create a best-effort index. Do not claim a complete AST, exact dependency graph, or full repository coverage unless the available tooling actually established it. Exclude generated, vendored, hidden, and ignored directories. For large repositories, index the relevant subset and state that scope rather than inventing completeness. Keep entries compact and paths consistently sorted.
+Entry example: `` `src/auth.ts` — Auth service; exports `Auth.login(User): Promise<Token>`; imports `src/store.ts`, `jsonwebtoken`; tested by `tests/auth.test.ts`. `` Create `.hase/graph.json` only on request.
 
-Refresh the graph after adding, deleting, renaming, or moving modules, or after changing public signatures, imports, or class relationships. Do not rewrite it for ordinary implementation edits that do not affect structure. Confirm source text before relying on recorded line numbers.
+## Memory procedure — `.hase/memory.json`
 
-### Suggested graph layout
+Keep verified, non-obvious, durable facts that may change future decisions. No task summaries, TODOs, generic advice, duplicates, secrets, guesses, or transient details.
 
-```markdown
-# CODEBASE CONTEXT GRAPH
-*Agent-maintained | Updated: YYYY-MM-DD | Coverage: ...*
+**Admission—all yes:** verified or user-confirmed; durable/useful; not already captured; concise/safe. Otherwise do not record. Prefer source/docs when lasting.
 
-## Module and dependency topology
-- `src/example.ts` -> [`src/models.ts`, `@/shared/logger`]
+Schema: `{"version":"7.0","updated_at":"UTC ISO-8601","findings":[{"id":"f-001","topic":"Area","fact":"Verified fact","files":["src/file.ts"],"recorded_at":"UTC ISO-8601"}],"invariants":["Normative rule"]}`.
 
-## Symbol hierarchy
-### `src/example.ts`
-- `class ExampleService` implements `ExamplePort`
-- `function runExample(input: Input): Result` [L20-L42]
+- Parse/validate first. Missing file: create empty arrays/current UTC; invent nothing. Require v7.0, UTC timestamps, unique `f-NNN` IDs, non-empty topic/fact, workspace-relative evidence paths, unique non-empty invariants. User-confirmed facts without files use `User-confirmed:` and `files: []`.
+- Invalid data: do not edit/repair; report the issue and ask. Deduplicate findings by meaning; next ID follows largest numeric suffix (not array length); one factual sentence and sorted relevant paths. Invariants require an explicit rule, repeated architecture, or user confirmation.
+- Preserve unrelated entries. Write full JSON (2-space indent, final newline, UTC), reread/validate, confirm old entries remain. Clear only on request. Emit `[MEM]` only for saved, verified new/corrected memory.
 
-## Tests and configuration
-- `tests/example.test.ts` -> tests `ExampleService`
-```
-
-Use only sections that apply to the repository. For documentation-only repositories, index the key documents and their roles instead of inventing code symbols.
-
-When machine-readable graph output is explicitly requested, maintain `graph.json` with this best-effort, language-neutral shape. Omit unknown values instead of fabricating them:
-
-```json
-{
-  "root": "workspace-relative root",
-  "total_files": 1,
-  "generated_at": "ISO-8601 UTC timestamp",
-  "files": [
-    {
-      "file": "src/example.ts",
-      "lines": 42,
-      "imports": ["./models"],
-      "symbols": [
-        {"kind": "class", "name": "ExampleService", "signature": "ExampleService implements ExamplePort", "line_start": 10, "line_end": 30}
-      ]
-    }
-  ],
-  "dependencies": {"src/example.ts": ["./models"]}
-}
-```
-
-Use workspace-relative forward-slash paths, sort file and dependency entries, and keep `total_files` consistent with `files`. This is an editor-derived index, not a parser-produced AST.
-
-## Persistent memory ledger
-
-Use `.hase/memory.json` with the existing schema:
-
-```json
-{
-  "version": "7.0",
-  "updated_at": "ISO-8601 UTC timestamp",
-  "findings": [
-    {
-      "id": "f-001",
-      "topic": "Area",
-      "fact": "Verified finding or constraint",
-      "files": ["path/to/file"],
-      "recorded_at": "ISO-8601 UTC timestamp"
-    }
-  ],
-  "invariants": ["Project-wide rule"]
-}
-```
-
-Read and validate the existing JSON before editing. Preserve existing findings and invariants; append only durable, non-obvious information that will help future work. Use a unique sequential finding ID, include relevant paths, update UTC timestamps, and avoid duplicate invariants. Never silently replace malformed or unreadable memory with an empty ledger. Do not clear or remove entries unless explicitly requested. If the ledger is missing, initialize it with the schema above.
-
-When a new durable discovery is recorded, include `[MEM: Topic | Finding]` in the task response and persist that finding in the ledger. Do not store secrets or transient implementation details.
-
-## Agent-operated HASE features
-
-- **Calculate a state:** bitwise-OR selected plane values; report the byte, decimal value, binary value, and active planes. Accept only values in the byte range `0..255` and known plane flags/slugs.
-- **Explain a state:** accept decimal or hexadecimal byte input; report active/inactive planes and whether tests are mandated. Reject values outside `0..255` rather than silently wrapping them.
-- **Verify output:** inspect the first non-empty line for `[STATE: 0xNN]`; require a second line with exactly three non-empty `[PLAN: Approach | Rationale | Risk -> Mitigation]` segments and `->` in the third; allow one optional `[MEM: Topic | Finding]` line next. Check the remaining content for placeholders and, when bit `0x20` is active, require actual companion test code or tests in the changed project. Report specific issues; do not claim static proof from keyword matches alone.
-- **Sync context and memory:** inspect/refresh the graph as needed and validate that the ledger exists and is valid JSON; preserve user data.
-- **List, add, or clear memory:** inspect and summarize the ledger, append durable findings/invariants, or clear only on explicit request.
-- **Initialize another workspace:** install the selected HASE instruction files and this workflow document using workspace file operations; create `.hase/context.md` and `.hase/memory.json` only when absent. Preserve existing user files and data; ask before overwriting or replacing them.
-
-These operations are agent-guided, not deterministic commands. Their completeness depends on the host agent's access to workspace files and language services. Do not ask the user to install Python or run a HASE script.
+**Sync:** only when requested—enumerate scope, verify graph, refresh stale facts, validate ledger, reread files, report scope/counts and limits. Optimize navigation value per token, not apparent completeness.

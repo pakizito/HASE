@@ -24,4 +24,4 @@ Before editing code, mentally audit the task against the HASE v7.0 8-plane cogni
 - Never swallow exceptions.
 
 ## 3. Context Engine & Working Memory
-Follow `.hase/agent-workflow.md` for agent-managed context graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, and preserve existing ledger entries. No Python runtime or HASE CLI is required.
+Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh only after structural changes. Keep coverage truthful, preserve the ledger, record only verified durable facts, and reread edits before claiming success. Report if workspace write access is unavailable.

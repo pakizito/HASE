@@ -21,7 +21,7 @@ Before emitting any output, evaluate the task across all 8 architectural planes.
 - Technical Query: Direct high-density facts/commands with zero boilerplate.
 
 ## 3. CONTEXT GRAPH & MEMORY PROTOCOL
-Follow `.hase/agent-workflow.md` for agent-managed context graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, preserve existing ledger entries, and use editor/workspace tools rather than Python scripts or a HASE CLI.
+Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh only after structural changes. Keep coverage truthful, preserve the ledger, and record only verified durable facts. Re-read edits before claiming success; if workspace write access is unavailable, say so.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

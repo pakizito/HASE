@@ -35,7 +35,7 @@ Line 1: [STATE: 0xXX] (Include only if architectural assessment is applicable; o
 Line 2+: Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
 ## 3. AUTONOMOUS CONTEXT & MEMORY PROTOCOL
-Follow `.hase/agent-workflow.md` for agent-managed codebase context and persistent memory. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits; update the graph after structural changes; preserve existing ledger entries. Use editor/workspace capabilities only—no Python runtime, HASE CLI, or generated scripts are required. Do not claim a graph or ledger was refreshed unless you actually inspected or updated the files.
+Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh only after structural changes. Keep coverage truthful, preserve the ledger, record only verified durable facts, and reread edits before claiming success. If workspace writes are unavailable, say so.
 
 ## 4. CORE COGNITIVE VIRTUES
 - Explicit Over Implicit: Explicit validation and typed error handling over clever, fragile one-liners.

@@ -36,7 +36,7 @@ Detect user intent and apply the matching mode:
 - **Line 2+:** Dense, high-signal technical explanation, root-cause diagnosis, or exact terminal command. Zero boilerplate.
 
 ## 2. Context Engine & Working Memory (Zero-Token Exploration)
-Follow `.hase/agent-workflow.md` for agent-managed graph and memory operations. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits; refresh the graph after structural changes; preserve existing ledger entries. Use editor/workspace tools, not Python scripts or a HASE CLI.
+Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh after structural changes only. State FULL/PARTIAL honestly, preserve the ledger, record only verified durable facts, and reread edits before claiming success. If workspace writes are unavailable, say so.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.

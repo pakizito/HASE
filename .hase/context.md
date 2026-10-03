@@ -1,16 +1,18 @@
 # CODEBASE CONTEXT GRAPH
-*Agent-maintained | Updated: 2026-10-03 | Coverage: HASE documentation, instruction files, prompt templates, and workspace ledger; source tooling and automated HASE tests were removed.*
+*Updated: 2026-10-03 | Code/test: FULL 0/0 | Docs/config: FULL 18/18 tracked files (license separate); excluded: local environments and VCS metadata.*
 
-## Project structure
-- `README.md` -> Protocol description, eight-plane matrix, integrations, examples, and agent-operated feature guide.
-- `CLAUDE.md`, `CONVENTIONS.md`, `GEMINI.md` -> Claude, Aider, and Gemini/Antigravity project instructions.
-- `.github/copilot-instructions.md`, `.cursor/rules/hase.mdc`, `.cursorrules`, `.windsurfrules`, `.clinerules`, `.agents/rules/hase.md`, `.sourcegraph/hase.rule.md` -> Agent-specific instructions; all delegate context/memory behavior to `.hase/agent-workflow.md`.
-- `.hase/agent-workflow.md` -> Shared Python-free graph and persistent-memory procedures.
-- `.hase/memory.json` -> Durable project findings and invariants.
-- `templates/hase-system-prompt.md`, `templates/hase-system-prompt.txt`, `templates/hase-compact.txt` -> Long and compact prompt variants.
-- `LICENSE` -> MIT license.
+## Project
+- Documentation/configuration-only prompt protocol; no executable, runtime, tests, build, or lint commands.
+- `.hase/agent-workflow.md` -> 500-token graph budget; selective navigation, structural refresh, curated memory.
+- `.hase/memory.json` -> durable findings and invariants.
+- `README.md` defines the 8-plane matrix, output modes, and token-lean agent-operated features.
 
-## Workflow relationships
-- Workspace-specific instructions use `.hase/agent-workflow.md` as the shared source of truth for graph refresh and ledger edits.
-- `.hase/context.md` is an agent-maintained, best-effort navigation index, not a parser-generated AST.
-- Graph and memory operations require the host agent's workspace-file access; HASE has no executable, runtime, CLI, or automated test runner.
+## Instructions and templates
+- `.github/copilot-instructions.md`, `.cursor/rules/hase.mdc`, `.cursorrules`, `.windsurfrules`, `.clinerules`, `.agents/rules/hase.md`, `.sourcegraph/hase.rule.md`, `CLAUDE.md`, `CONVENTIONS.md`, `GEMINI.md` -> tool-specific rules; all defer graph/memory updates to `.hase/agent-workflow.md`.
+- `templates/hase-system-prompt.md`, `templates/hase-system-prompt.txt`, `templates/hase-compact.txt` -> standalone full/compact prompt variants; graph/memory behavior follows `.hase/agent-workflow.md`.
+- `.gitignore` -> OS/IDE and local environment exclusions.
+- `.hase/context.md` -> this navigation index; `.hase/memory.json` -> findings and invariants.
+
+## Limitations
+- `tools/` and `tests/` are empty; HASE has no executable or test suite. Graph and memory updates depend on host workspace file access.
+- Graph is intentionally token-lean: use relevant entries and inspect source on demand; routine edits do not trigger a full rebuild.

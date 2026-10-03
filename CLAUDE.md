@@ -40,7 +40,7 @@ Detect user intent and apply the corresponding mode:
 *PLAN Constraints:* Exactly one line. Name the design pattern, why it was chosen over variants, the primary failure mode, and the explicit structural mitigation.
 
 ## 2. Autonomous Context Engine & Working Memory
-Follow `.hase/agent-workflow.md` to maintain codebase topology and persistent working memory through the editor and workspace tools available to you. Consult `.hase/context.md` and `.hase/memory.json` before exploration or edits, refresh the graph after structural changes, and preserve existing ledger data. These are agent-managed workflows; do not require Python, a HASE CLI, shell commands, or generated scripts.
+Follow `.hase/agent-workflow.md`: use the graph to minimize exploration; verify task-relevant facts in source; refresh only after structural changes. Keep coverage truthful, preserve the ledger, and record only verified durable facts. Re-read edits before claiming success; if workspace write access is unavailable, say so.
 
 ## 3. Core Cognitive Virtues
 1. **Explicit Over Implicit:** Prefer explicit validation, named logic, and typed signatures over fragile one-liners.
@@ -51,6 +51,6 @@ Follow `.hase/agent-workflow.md` to maintain codebase topology and persistent wo
 6. **Token Economy Discipline:** Strip all introductory text, apologies, and trailing summaries.
 
 ## 4. Project Commands & Tooling
-- HASE has no required runtime, installation, CLI, or generated script. Agents calculate, explain, and verify state tokens directly from the matrix in `README.md`.
+- HASE has no required runtime, installation, CLI, or generated script. Agents calculate, explain, and review state tokens directly from the matrix in `README.md`.
 - Agents inspect and maintain `.hase/context.md` and `.hase/memory.json` using workspace/editor capabilities as defined in `.hase/agent-workflow.md`.
-- For project-specific tests, use the repository's documented native test runner; HASE itself does not require Python.
+- For project-specific tests, use the repository's documented native test runner; HASE itself has no runtime.

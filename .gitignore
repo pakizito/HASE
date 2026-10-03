@@ -14,10 +14,10 @@ Desktop.ini
 *.swp
 *~
 
-# Python artifacts (legacy/development only; HASE has no Python runtime requirement)
+# Local environments
 .venv/
 venv/
 env/
-__pycache__/
-*.py[cod]
-*$py.class
+
+# Editor-agent caches
+.copilot-cache/
