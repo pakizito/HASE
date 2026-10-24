@@ -105,6 +105,13 @@ class ContextGraphTests(unittest.TestCase):
         modules = build_graph(self.project_root)
         self.assertEqual([module.path for module in modules], ["src/kept.py"])
 
+    def test_editor_and_foreign_build_directories_are_excluded(self) -> None:
+        for directory in (".idea", ".vscode", ".next", ".svelte-kit", "coverage"):
+            self.write_source(f"{directory}/ignored.py", "invalid python ???\n")
+        self.write_source("src/kept.py", "value = 1\n")
+        modules = build_graph(self.project_root)
+        self.assertEqual([module.path for module in modules], ["src/kept.py"])
+
     def test_file_limit_fails_instead_of_truncating(self) -> None:
         self.write_source("a.py", "value = 1\n")
         self.write_source("b.py", "value = 2\n")

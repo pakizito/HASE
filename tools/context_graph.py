@@ -18,7 +18,10 @@ MAX_CHARS = DEFAULT_MAX_OUTPUT_CHARS = 30_000
 EXCLUDED_DIRS = {
     ".git", ".hg", ".svn", ".venv", "venv", "env", ".tox", ".nox",
     ".pytest_cache", ".mypy_cache", ".ruff_cache", ".hypothesis",
-    "__pycache__", "__pypackages__", "node_modules", "build", "dist", "target",
+    "__pycache__", "__pypackages__", "node_modules", "site-packages",
+    ".idea", ".vscode", ".cache", ".next", ".nuxt", ".svelte-kit",
+    ".angular", ".terraform", ".dart_tool", ".gradle", ".eggs",
+    "build", "dist", "out", "target", "coverage", "htmlcov",
 }
 
 
