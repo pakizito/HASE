@@ -19,23 +19,23 @@ class Target:
 
 
 TARGETS: tuple[Target, ...] = (
-    Target("AGENTS.md", "HASE v8.0 — AGENTS.md / Codex"),
-    Target("CLAUDE.md", "HASE v8.0 — Claude Code"),
-    Target("GEMINI.md", "HASE v8.0 — Gemini"),
-    Target(".github/copilot-instructions.md", "HASE v8.0 — GitHub Copilot"),
+    Target("AGENTS.md", "HASE v9.0 — AGENTS.md / Codex"),
+    Target("CLAUDE.md", "HASE v9.0 — Claude Code"),
+    Target("GEMINI.md", "HASE v9.0 — Gemini"),
+    Target(".github/copilot-instructions.md", "HASE v9.0 — GitHub Copilot"),
     Target(
         ".cursor/rules/hase.mdc",
-        "HASE v8.0 — Cursor",
+        "HASE v9.0 — Cursor",
         """---
-description: HASE v8 engineering contract for Cursor
+description: HASE v9 token-optimized engineering contract for Cursor
 globs: "**/*"
 alwaysApply: true
 ---""",
     ),
-    Target(".windsurfrules", "HASE v8.0 — Windsurf"),
-    Target(".clinerules", "HASE v8.0 — Cline / Roo Code"),
-    Target(".agents/rules/hase.md", "HASE v8.0 — Antigravity & Agentic Systems"),
-    Target("CONVENTIONS.md", "HASE v8.0 — Aider"),
+    Target(".windsurfrules", "HASE v9.0 — Windsurf"),
+    Target(".clinerules", "HASE v9.0 — Cline / Roo Code"),
+    Target(".agents/rules/hase.md", "HASE v9.0 — Antigravity & Agentic Systems"),
+    Target("CONVENTIONS.md", "HASE v9.0 — Aider"),
 )
 
 

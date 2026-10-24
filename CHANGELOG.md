@@ -1,3 +1,26 @@
+## [9.0.0] — 2026-10-24
+
+### Added
+
+- Token-optimized core contract at roughly 10 KB per adapter, with an 11 KB test budget.
+- Detailed engineering reference in `docs/playbook.md`, loaded only when needed.
+- Polyglot context graph: languages, directory map, Python symbols/imports, optional file listing, and non-fatal Python parse errors.
+- Quiet GRILL protocol with a three-question blocking budget and defaults-first behavior.
+- `AGENTS.md` adapter.
+- ADR 0002 for the v9 architecture.
+
+### Changed
+
+- Detailed standards moved out of the default adapter into progressive-disclosure references.
+- GRILL now resolves facts and sensible defaults silently instead of interviewing the user routinely.
+- The context graph default limit is now 2,000 code files; `--files` is opt-in.
+- Context-graph Python syntax errors and duplicate module names are reported without discarding the rest of the inventory.
+
+### Fixed
+
+- The context graph no longer fails on a non-Python codebase.
+- Adapter richness no longer comes at the cost of the default context budget.
+
 # Changelog
 
 All notable changes to HASE are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses semantic versioning for the contract.

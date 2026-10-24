@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-HASE is a set of plain-text instructions and local developer tools. Security fixes are applied to the current major version, currently **8.x**.
+HASE is a set of plain-text instructions and local developer tools. Security fixes are applied to the current major version, currently **9.x**.
 
 ## Reporting a vulnerability
 

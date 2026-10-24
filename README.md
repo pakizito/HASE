@@ -1,50 +1,37 @@
-# HASE v8.0
+# HASE v9.0
 
-### A deliberate engineering contract for AI-assisted software development.
+### A token-optimized engineering contract for AI-assisted software development.
 
-HASE is a portable instruction set for coding agents. It gives an agent a repeatable way to understand a repository, ask better questions, make focused changes, verify the result, and hand work back with evidence.
+HASE gives coding agents a repeatable way to understand a repository, make focused changes, verify with evidence, and hand work back without flooding the context window.
 
-It is plain text. No runtime, hosted service, or mandatory setup. Use one adapter file, or use the optional local tools when they earn their keep.
+The default adapter is a compact contract. Detailed standards live in [`docs/playbook.md`](docs/playbook.md) and are loaded only when a task needs them.
 
 > **Guidance, not magic:** HASE improves process discipline. It does not guarantee correctness, security, or a particular token reduction. Results still depend on the model, editor tools, repository state, and human review.
 
-## What changed in v8
+## What changed in v9
 
-v7 was a compact lens checklist. v8 is an engineering contract that scales from a typo to a production incident.
+v8 proved the process but grew to about 23 KB per adapter. v9 keeps the useful parts and makes them compact.
 
-- **Canonical source:** `HASE.md` is the single source of truth. All adapter files are generated from it, so they cannot drift.
-- **Proportional process:** tasks are classified as T0–T3. A typo does not get a threat model; authentication and migrations do.
-- **GRILL mode:** a decision interview inspired by [grill-me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me). One consequential question at a time, each with a recommended answer and trade-off.
-- **Explicit modes:** GRILL, PLAN, BUILD, DEBUG, REVIEW, and SHIP.
-- **Definition of Done:** tests, types, security, data, observability, docs, and rollback are checked before work is called complete.
-- **Stronger engineering standards:** security, privacy, concurrency, APIs, accessibility, AI/LLM safety, supply chain, Git, release, and observability.
-- **Evidence-based handoff:** “done” requires the command or observation that proves it.
-- **Optional compact mode:** the eight-bit state token is still available, but it is no longer mandatory output.
-- **Maintainable repository:** generated adapters, a drift check, unit tests, and CI.
+- **Token-optimized core:** the canonical contract is now about 10 KB instead of 23 KB. A unit test enforces an 11 KB adapter budget.
+- **Progressive disclosure:** detailed security, data, API, frontend, AI, and release guidance moved to `docs/playbook.md`; the adapter points to the relevant reference.
+- **Quiet GRILL:** the decision interview remains, but it runs silently by default. The agent resolves facts and sensible defaults itself and asks only when the answer changes behaviour, security, data, cost, or an irreversible action. Hard cap: three blocking questions per task.
+- **Polyglot context graph:** `tools/context_graph.py` now inventories any codebase by directory and language. Python also gets symbols and import edges; other languages get a structural map. `--files` is opt-in.
+- **Less nagging:** no routine confirmation for plans, reversible local edits, or read-only work. Assumptions are stated in the handoff instead.
+- **AGENTS.md:** added for Codex and other AGENTS.md-compatible agents. All nine adapters are generated from `HASE.md`.
 
 Memory schema remains **v7-compatible**; HASE’s contract version and the memory format version are independent.
 
-## Choose a mode
+## Core behaviour
 
-| Mode | Use it for | Output |
-| --- | --- | --- |
-| **GRILL** | Vague or high-impact plans; “grill me” | One question at a time, recommendation, trade-off, decision ledger |
-| **PLAN** | T1/T2 work where the approach is not obvious | Goal, assumptions, interfaces, risks, acceptance criteria, test plan |
-| **BUILD** | Implementing an agreed change | Focused patch, tests, verification |
-| **DEBUG** | A defect or failing test | Reproduction, root cause, minimal fix, regression test |
-| **REVIEW** | A diff, PR, or design | Findings by severity with file/line evidence |
-| **SHIP** | Release or production change | Verification, migration/rollback, observability, release notes |
-
-## Task tiers
-
-| Tier | Examples | Minimum process |
-| --- | --- | --- |
-| **T0** | Typo, comment, link, isolated copy change | Inspect, edit, validate the affected file |
-| **T1** | Bug fix, feature, refactor, local API change | Assumptions, tests, relevant checks, diff review |
-| **T2** | Auth, payments, PII, destructive migration, public contract, AI safety | Plan, threat model, rollback, approval before irreversible steps |
-| **T3** | Outage, data loss, exploit, leaked credential | Stabilise, preserve evidence, avoid opportunistic refactors |
-
-When unsure, escalate one tier.
+| Area | Rule |
+| --- | --- |
+| Triage | T0 trivial, T1 normal, T2 high risk, T3 incident. Escalate when unsure. |
+| GRILL | Resolve silently; ask only blocking questions; recommend an option with a trade-off. |
+| PLAN | Goal, acceptance criteria, constraints, failure modes, rollback, tests. |
+| BUILD | Read first, focused patch, tests where practical, run the checks. |
+| DEBUG | Reproduce, isolate, fix the cause, add a regression test. |
+| REVIEW | P0–P3 findings with file/line evidence; read-only by default. |
+| SHIP | Verify, document, and do not deploy without explicit approval. |
 
 ## Install one adapter
 
@@ -62,18 +49,26 @@ Choose **one** native instruction file and copy it to the matching path in your 
 | Gemini | [`GEMINI.md`](GEMINI.md) |
 | Aider | [`CONVENTIONS.md`](CONVENTIONS.md) |
 
-Each adapter is self-contained. The generated marker at the top is provenance: when contributing to HASE, edit [`HASE.md`](HASE.md) and run the renderer. A copied adapter may be adapted for its target project.
+Each adapter is self-contained for normal work. The generated marker is provenance: when contributing to HASE, edit [`HASE.md`](HASE.md) and run the renderer. A copied adapter may be adapted for its target project; the detailed playbook is optional reference, not a runtime dependency.
 
 ```powershell
 python tools/render_adapters.py
 python tools/render_adapters.py --check
 ```
 
-## GRILL mode
+## GRILL without nagging
 
-Use it when the user says “grill me”, when requirements are fuzzy, or before a large high-risk build.
+Use GRILL when the user says “grill me”, when a high-impact requirement is genuinely ambiguous, or before a large T2 build.
 
-The agent asks one question at a time, recommends an answer, names the trade-off, and waits. It investigates facts in the repository instead of asking the user to repeat them. It maintains a decision tree and only asks questions whose prerequisites are settled.
+The agent first resolves everything it can from the repository, conventions, and sensible defaults. It asks only when the answer changes one of:
+
+- observable behaviour or a public contract;
+- data shape, retention, deletion, or migration;
+- security, privacy, or authorisation;
+- cost, latency, or operational risk above budget;
+- an irreversible action or external side effect.
+
+Questions are one at a time, with a recommendation and trade-off:
 
 ```text
 Q: Should the first release support shared family accounts, or one owner per profile?
@@ -82,28 +77,25 @@ Trade-off: Families with multiple caregivers wait for the second release.
 Reply: accept / change to ... / unknown / skip / summary / stop
 ```
 
-GRILL ends with a decision brief. It does not start coding until the user confirms shared understanding. A template is in [`docs/decision-brief-template.md`](docs/decision-brief-template.md).
+If no blocking doubt exists, there is no question. The agent states its assumptions and proceeds. The full protocol is in [`docs/playbook.md`](docs/playbook.md#grill-protocol).
 
-## Templates
+## Polyglot context graph
 
-- [`docs/decision-brief-template.md`](docs/decision-brief-template.md) — the output of a GRILL session.
-- [`docs/threat-model-template.md`](docs/threat-model-template.md) — T2 security and trust-boundary review.
-- [`docs/adr/0000-template.md`](docs/adr/0000-template.md) — durable architecture decision record.
-
-## Optional: Python context map
-
-For cross-file Python work:
+For any codebase:
 
 ```powershell
 python tools/context_graph.py --root .
 python tools/context_graph.py --root . --source src --source tests
+python tools/context_graph.py --root . --files
 ```
 
-The tool requires Python 3.10 or later, uses only the standard library, parses with `ast`, does not import project code, and writes `.hase/context.md`. It skips VCS, virtual environments, caches, editor state, package managers, and common build outputs. It fails instead of silently truncating above 400 Python files or 30,000 output characters. It refuses to overwrite handwritten context without `--force`.
+The default output is a compact summary: languages, directory counts, Python modules and import edges. Other languages are inventoried structurally; HASE does not pretend a regex is a parser. `--files` adds the full code-file listing only when needed; `--all-imports` includes external Python imports. Module names are relative to the selected source roots; use `--root .` for cross-root imports.
 
-Treat the map as a cache. Verify the relevant source before relying on it. For other languages, use IDE symbols and targeted inspection.
+The tool requires Python 3.10 or later, uses only the standard library, does not import project code, and writes `.hase/context.md`. It skips VCS, virtual environments, caches, editor state, package managers, generated context, and common build outputs. It fails instead of silently truncating above 2,000 code files or 30,000 output characters. It refuses to overwrite handwritten context without `--force`.
 
-## Optional: project memory
+Treat the map as a cache. Verify the source before relying on it.
+
+## Optional project memory
 
 Memory is for verified, durable facts that change future decisions, not task history. It is separate from the generated context map and is not created during setup.
 
@@ -126,12 +118,19 @@ Memory is for verified, durable facts that change future decisions, not task his
 
 Keep entries verified, durable, concise, and useful. Preserve unrelated entries. Exclude guesses, secrets, personal data, duplicates, and task logs. Durable architecture decisions belong in `docs/adr/`, not in memory.
 
+## Templates and reference
+
+- [`docs/playbook.md`](docs/playbook.md) — detailed standards and full GRILL protocol.
+- [`docs/decision-brief-template.md`](docs/decision-brief-template.md) — output of a GRILL session.
+- [`docs/threat-model-template.md`](docs/threat-model-template.md) — T2 security and trust-boundary review.
+- [`docs/adr/0000-template.md`](docs/adr/0000-template.md) — durable architecture decision record.
+
 ## Repository maintenance
 
 ```powershell
 python -m unittest discover -s tests -t . -v
 python tools/render_adapters.py --check
-python tools/context_graph.py --root . --source tools --source tests
+python tools/context_graph.py --root .
 ```
 
 CI runs the test suite and the adapter drift check on every push and pull request. The repository uses UTF-8, LF line endings, and a two-space Markdown indent; see `.editorconfig` and `.gitattributes`.
@@ -143,6 +142,7 @@ CI runs the test suite and the adapter drift check on every push and pull reques
 - **Source remains authoritative:** generated context and memory can be stale; inspect the code.
 - **Proportional ceremony:** use the lightest process that still makes the change safe and reviewable.
 - **One source of truth:** edit `HASE.md`, not the generated adapters.
+- **Token discipline:** the default adapter is compact; detail is opt-in.
 
 ## Contributing
 
@@ -152,8 +152,8 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the source-of-truth workflow and pu
 
 - [grill-me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me) by Matt Pocock (MIT): the one-question-at-a-time decision interview, recommended answers, and “facts are the agent’s job; decisions are the user’s.”
 - [grill-with-docs](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-with-docs) (MIT): shared domain language and ADRs as durable decision records.
-- The original HASE v7 lens model: architecture, state, defensive design, performance, observability, verification, idioms, and security.
+- The original HASE v7 lens model.
 
-HASE is not affiliated with those projects. The GRILL implementation here is a compact adaptation, not a copy.
+HASE is not affiliated with those projects. The GRILL implementation here is a quiet adaptation, not a copy.
 
 Licensed under [MIT](LICENSE).

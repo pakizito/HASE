@@ -19,7 +19,7 @@ class RenderAdaptersTests(unittest.TestCase):
         rendered = compose("# Canonical\n\nBody.\n", target)
         self.assertTrue(rendered.startswith("---\n"))
         self.assertLess(rendered.index("---", 4), rendered.index(MARKER))
-        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v8.0 — Cursor"))
+        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v9.0 — Cursor"))
         self.assertTrue(rendered.endswith("\n"))
         self.assertNotIn("\r\n", rendered)
 
@@ -41,6 +41,15 @@ class RenderAdaptersTests(unittest.TestCase):
             path = root / relative
             self.assertTrue(path.exists(), relative)
             self.assertEqual(path.read_bytes(), expected.encode("utf-8"), relative)
+
+    def test_adapters_stay_within_token_budget(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        for relative, expected in render_all(root).items():
+            self.assertLess(
+                len(expected.encode("utf-8")),
+                11_000,
+                f"{relative} exceeds the compact adapter budget",
+            )
 
 
 if __name__ == "__main__":
