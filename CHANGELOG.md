@@ -1,3 +1,19 @@
+## [9.1.0] — 2026-10-25
+
+### Added
+
+- Evidence-backed `[STATE: 0xNN]` / `[PLAN: ...]` / `[SUMMARY: ...]` frame for T1/T2 code changes and reviews.
+- `tools/hase_state.py` for decoding, encoding, and validating frames.
+- `docs/hase-frame.md` with the grammar, bit evidence rules, examples, and token economics.
+- ADR 0003 documenting why the hex frame returned and how it is constrained.
+- Six state-frame tests.
+
+### Changed
+
+- The hex state is no longer a private optional checklist; it is a scoped machine frame with evidence requirements.
+- The frame is skipped for T0 and ordinary chat to protect the token budget.
+- The default adapter remains under the 11 KB budget.
+
 ## [9.0.0] — 2026-10-24
 
 ### Added

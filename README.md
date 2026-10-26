@@ -1,4 +1,4 @@
-# HASE v9.0
+# HASE v9.1
 
 ### A token-optimized engineering contract for AI-assisted software development.
 
@@ -7,6 +7,15 @@ HASE gives coding agents a repeatable way to understand a repository, make focus
 The default adapter is a compact contract. Detailed standards live in [`docs/playbook.md`](docs/playbook.md) and are loaded only when a task needs them.
 
 > **Guidance, not magic:** HASE improves process discipline. It does not guarantee correctness, security, or a particular token reduction. Results still depend on the model, editor tools, repository state, and human review.
+
+## What changed in v9.1
+
+v9 made the contract compact. v9.1 restores the hex state as an evidence-backed machine frame, not as ceremony.
+
+- **Hex state frame:** T1/T2 code changes and reviews start with `[STATE: 0xNN]` and `[PLAN: ...]`, and end with `[SUMMARY: change | verify: ... | risk: ...]`.
+- **Evidence-backed bits:** a set bit must be acted on. Verification needs a test, security needs a boundary check, performance needs a budget.
+- **Validator:** `tools/hase_state.py` decodes, encodes, and checks frames.
+- **Still compact:** detailed standards remain in `docs/playbook.md`; the default adapter stays under the 11 KB budget.
 
 ## What changed in v9
 
@@ -32,6 +41,40 @@ Memory schema remains **v7-compatible**; HASE’s contract version and the memor
 | DEBUG | Reproduce, isolate, fix the cause, add a regression test. |
 | REVIEW | P0–P3 findings with file/line evidence; read-only by default. |
 | SHIP | Verify, document, and do not deploy without explicit approval. |
+
+## The hex state frame
+
+The frame is a **commitment header**, not a compression of reasoning. It forces the agent to choose the lenses it will act on and gives another agent a stable line to parse. Use it for T1/T2 code changes and reviews; skip it for T0 and ordinary chat.
+
+```text
+[STATE: 0x25]
+[PLAN: replace parser branch | legacy input -> fixture]
+...
+[SUMMARY: parser fixed | verify: 27 tests pass | risk: none]
+```
+
+Bits, high to low:
+
+| Bit | Lens | Evidence expected |
+| --- | --- | --- |
+| `0x80` | Security / privacy | Boundary, authz, secret, or data check |
+| `0x40` | Idioms | Repository convention followed |
+| `0x20` | Verification | Test, command, or observation |
+| `0x10` | Observability | Log, metric, trace, or why not needed |
+| `0x08` | Performance | Budget, measurement, or complexity argument |
+| `0x04` | Defensive design | Input, error, or boundary handling |
+| `0x02` | State / lifecycle | Ownership, cleanup, concurrency, atomicity |
+| `0x01` | Architecture | Boundary, interface, or dependency direction |
+
+Set only bits you act on. `0x00` means no lens applies: skip the frame instead of emitting a meaningless one.
+
+The full specification and evidence rules are in [`docs/hase-frame.md`](docs/hase-frame.md). Validate a frame with:
+
+```powershell
+python tools/hase_state.py decode 0x25
+python tools/hase_state.py encode architecture defensive verification
+python tools/hase_state.py check frame.txt
+```
 
 ## Install one adapter
 
@@ -121,6 +164,7 @@ Keep entries verified, durable, concise, and useful. Preserve unrelated entries.
 ## Templates and reference
 
 - [`docs/playbook.md`](docs/playbook.md) — detailed standards and full GRILL protocol.
+- [`docs/hase-frame.md`](docs/hase-frame.md) — full state-frame grammar, bit evidence, and parser contract.
 - [`docs/decision-brief-template.md`](docs/decision-brief-template.md) — output of a GRILL session.
 - [`docs/threat-model-template.md`](docs/threat-model-template.md) — T2 security and trust-boundary review.
 - [`docs/adr/0000-template.md`](docs/adr/0000-template.md) — durable architecture decision record.
@@ -131,6 +175,7 @@ Keep entries verified, durable, concise, and useful. Preserve unrelated entries.
 python -m unittest discover -s tests -t . -v
 python tools/render_adapters.py --check
 python tools/context_graph.py --root .
+python tools/hase_state.py decode 0x25
 ```
 
 CI runs the test suite and the adapter drift check on every push and pull request. The repository uses UTF-8, LF line endings, and a two-space Markdown indent; see `.editorconfig` and `.gitattributes`.

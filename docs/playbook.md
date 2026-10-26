@@ -1,6 +1,6 @@
 # HASE engineering playbook
 
-Extended reference for HASE v9. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
+Extended reference for HASE v9.1. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
 
 ## GRILL protocol
 
@@ -65,6 +65,10 @@ Stop when the frontier has no blocking nodes and the next implementation step is
 - Evidence gap: what would make the plan wrong?
 - Abuse case: who benefits from breaking it?
 - Operability: who gets paged, and what do they see?
+
+## HASE frame
+
+The compact `[STATE: 0xNN]` / `[PLAN: ...]` / `[SUMMARY: ...]` frame is specified in [`hase-frame.md`](hase-frame.md). Use it for T1/T2 code changes and reviews, not for T0 work or ordinary chat. Set only lenses that have supporting evidence.
 
 ## PLAN
 

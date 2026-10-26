@@ -1,6 +1,6 @@
 <!-- Generated from HASE.md by tools/render_adapters.py. In the HASE repository, edit HASE.md and regenerate; a copied adapter may be adapted for its target project. -->
 
-# HASE v9.0 — Gemini
+# HASE v9.1 — Gemini
 
 HASE is a compact operating contract for AI coding agents. Spend context on the change, not on ceremony.
 
@@ -94,7 +94,11 @@ Re-run verification. Do not deploy, publish, or change production unless explici
 - Do not reveal hidden chain-of-thought. Provide decisions, evidence, and concise rationale.
 - For a code change, hand off: **what changed**, **how it was verified**, **residual risks**, and **next step**.
 - For a review, use severity and file/line references. For a plan, use acceptance criteria and open questions.
-- If the user asks for token economy, use `[STATE: 0xXX]`, `[PLAN: approach | rationale | risk -> mitigation]`, and optional `[MEM]`. The eight lenses (architecture, state, defensive design, performance, observability, verification, idioms, security) are a private checklist, not mandatory output.
+### Machine frame
+
+T1/T2 code changes and reviews start with `[STATE: 0xNN]` and `[PLAN: approach | risk -> mitigation]`, and end with `[SUMMARY: change | verify: command or observation | risk: residual]`.
+
+Bits, high to low: `80` security, `40` idioms, `20` verification, `10` observability, `08` performance, `04` defensive design, `02` state/lifecycle, `01` architecture. Set only bits you act on: verification needs a check, security a boundary check, observability a log/metric, performance a budget. T0 and ordinary chat skip the frame. This is a 20–40 token commitment, not hidden reasoning. `tools/hase_state.py` validates it.
 
 ## 5. Core engineering checks
 
@@ -150,7 +154,7 @@ No unrelated rewrites, speculative abstraction, test deletion, mock-only verific
 
 ## 11. Reference and maintenance
 
-- Full standards (HASE repository): `docs/playbook.md`. Templates: `docs/decision-brief-template.md`, `docs/threat-model-template.md`, ADRs in `docs/adr/`.
-- HASE version: **9.0.0**. Memory schema: **7.0**.
+- Full standards (HASE repository): `docs/playbook.md`; frame spec: `docs/hase-frame.md`. Templates: `docs/decision-brief-template.md`, `docs/threat-model-template.md`, ADRs in `docs/adr/`.
+- HASE version: **9.1.0**. Memory schema: **7.0**.
 - Adapters are generated from this file by `tools/render_adapters.py`; a test enforces a compact size budget. Edit `HASE.md`, regenerate, and run the tests.
 - HASE is guidance, not a guarantee. The responsible engineer remains accountable.

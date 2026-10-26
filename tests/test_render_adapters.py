@@ -19,7 +19,7 @@ class RenderAdaptersTests(unittest.TestCase):
         rendered = compose("# Canonical\n\nBody.\n", target)
         self.assertTrue(rendered.startswith("---\n"))
         self.assertLess(rendered.index("---", 4), rendered.index(MARKER))
-        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v9.0 — Cursor"))
+        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v9.1 — Cursor"))
         self.assertTrue(rendered.endswith("\n"))
         self.assertNotIn("\r\n", rendered)
 
