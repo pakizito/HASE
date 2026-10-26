@@ -1,4 +1,4 @@
-# HASE v9.1
+# HASE v9.2
 
 ### A token-optimized engineering contract for AI-assisted software development.
 
@@ -8,20 +8,29 @@ The default adapter is a compact contract. Detailed standards live in [`docs/pla
 
 > **Guidance, not magic:** HASE improves process discipline. It does not guarantee correctness, security, or a particular token reduction. Results still depend on the model, editor tools, repository state, and human review.
 
+## What changed in v9.2
+
+v9.2 makes the contract leaner and more context-aware: one copyable file, a context ladder, and the hex state as a routing key.
+
+- **One file:** `HASE.md` is the canonical copy; the adapters are pre-renamed copies.
+- **Context ladder:** C0/T0 reads only the target and nearest test; C1/T1 adds the graph, affected files and tests; C2/T2 adds the relevant playbook section and threat model.
+- **Routing key:** the state byte selects which optional check sections to load, instead of loading the whole playbook.
+- **Tighter budget:** the adapter budget is now 9.5 KB; the default is about 9 KB.
+
 ## What changed in v9.1
 
-v9 made the contract compact. v9.1 restores the hex state as an evidence-backed machine frame, not as ceremony.
+v9.1 restores the hex state as an evidence-backed machine frame, not as ceremony.
 
 - **Hex state frame:** T1/T2 code changes and reviews start with `[STATE: 0xNN]` and `[PLAN: ...]`, and end with `[SUMMARY: change | verify: ... | risk: ...]`.
 - **Evidence-backed bits:** a set bit must be acted on. Verification needs a test, security needs a boundary check, performance needs a budget.
 - **Validator:** `tools/hase_state.py` decodes, encodes, and checks frames.
-- **Still compact:** detailed standards remain in `docs/playbook.md`; the default adapter stays under the 11 KB budget.
+- **Still compact:** detailed standards remain in `docs/playbook.md`.
 
 ## What changed in v9
 
 v8 proved the process but grew to about 23 KB per adapter. v9 keeps the useful parts and makes them compact.
 
-- **Token-optimized core:** the canonical contract is now about 10 KB instead of 23 KB. A unit test enforces an 11 KB adapter budget.
+- **Token-optimized core:** the canonical contract is now about 9 KB instead of 23 KB. A unit test enforces a 9.5 KB adapter budget.
 - **Progressive disclosure:** detailed security, data, API, frontend, AI, and release guidance moved to `docs/playbook.md`; the adapter points to the relevant reference.
 - **Quiet GRILL:** the decision interview remains, but it runs silently by default. The agent resolves facts and sensible defaults itself and asks only when the answer changes behaviour, security, data, cost, or an irreversible action. Hard cap: three blocking questions per task.
 - **Polyglot context graph:** `tools/context_graph.py` now inventories any codebase by directory and language. Python also gets symbols and import edges; other languages get a structural map. `--files` is opt-in.
@@ -76,9 +85,17 @@ python tools/hase_state.py encode architecture defensive verification
 python tools/hase_state.py check frame.txt
 ```
 
-## Install one adapter
+## Install one file
 
-Choose **one** native instruction file and copy it to the matching path in your project. Do not install every variant in the same repository.
+The canonical file is [`HASE.md`](HASE.md). Copy it into your project under the name your agent reads:
+
+```powershell
+copy HASE.md AGENTS.md        # Codex / AGENTS.md-compatible
+copy HASE.md CLAUDE.md        # Claude Code
+copy HASE.md GEMINI.md        # Gemini
+```
+
+The adapters below are pre-renamed copies of the same text. Use one; do not install every variant in the same repository.
 
 | IDE / agent | Instruction file |
 | --- | --- |

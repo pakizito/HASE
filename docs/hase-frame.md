@@ -59,6 +59,21 @@ Examples:
 - `0x8C` = `0x80` security + `0x08` performance + `0x04` defensive.
 - `0x00` means no lens was selected. If that is true, skip the frame instead of emitting a meaningless one.
 
+## Routing key
+
+The state byte is also a context router. After selecting a bit, load only the matching optional section when the compact check is insufficient:
+
+- `0x80` → security/privacy
+- `0x40` → idioms
+- `0x20` → testing/verification
+- `0x10` → observability
+- `0x08` → performance
+- `0x04` → errors/defensive design
+- `0x02` → state/lifecycle
+- `0x01` → architecture
+
+Do not load the whole playbook to satisfy one bit. If no bit is set, skip the frame and the optional sections.
+
 ## Evidence rule
 
 An unbacked bit is a false claim. Before setting a bit, answer the question in the evidence column. If the answer is "not applicable", clear the bit. If the answer is "I will check", make the check part of `PLAN` and report it in `SUMMARY`.

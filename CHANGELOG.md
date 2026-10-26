@@ -1,3 +1,17 @@
+## [9.2.0] — 2026-10-25
+
+### Added
+
+- Context ladder: C0/T0 reads target plus nearest test; C1/T1 adds graph, affected files and tests; C2/T2 adds a playbook section, threat model and rollback.
+- State byte as a routing key for optional playbook sections.
+- One-file install path: copy `HASE.md` as the agent instruction file; adapters are pre-renamed copies.
+
+### Changed
+
+- Compact core reduced to about 9 KB; adapter budget is now 9.5 KB.
+- Core checks condensed; detailed standards remain in `docs/playbook.md`.
+- Version bumped to 9.2.0.
+
 ## [9.1.0] — 2026-10-25
 
 ### Added

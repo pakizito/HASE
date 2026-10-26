@@ -1,6 +1,6 @@
 # HASE engineering playbook
 
-Extended reference for HASE v9.1. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
+Extended reference for HASE v9.2. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
 
 ## GRILL protocol
 
@@ -251,6 +251,14 @@ Stop before acting when:
 Ask one focused question. Include the recommended option and the consequence of each path.
 
 ## Context and memory
+
+### Context ladder
+
+- **C0 — chat/T0:** target file plus nearest test. No graph, no frame.
+- **C1 — T1:** graph summary, affected files, relevant tests, one call site.
+- **C2 — T2:** C1 plus the relevant playbook section, threat model, migration and rollback.
+
+Stop when the change surface and verification path are known. Do not read the whole repository or the whole playbook by default.
 
 ### Inspect in this order
 

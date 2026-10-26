@@ -19,7 +19,7 @@ class RenderAdaptersTests(unittest.TestCase):
         rendered = compose("# Canonical\n\nBody.\n", target)
         self.assertTrue(rendered.startswith("---\n"))
         self.assertLess(rendered.index("---", 4), rendered.index(MARKER))
-        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v9.1 — Cursor"))
+        self.assertLess(rendered.index(MARKER), rendered.index("# HASE v9.2 — Cursor"))
         self.assertTrue(rendered.endswith("\n"))
         self.assertNotIn("\r\n", rendered)
 
@@ -47,7 +47,7 @@ class RenderAdaptersTests(unittest.TestCase):
         for relative, expected in render_all(root).items():
             self.assertLess(
                 len(expected.encode("utf-8")),
-                11_000,
+                9_500,
                 f"{relative} exceeds the compact adapter budget",
             )
 
