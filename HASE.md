@@ -1,6 +1,6 @@
 # HASE v10.1 — One-File Engineering Contract
 
-HASE is one self-contained file in plain Markdown. Copy it as the filename your agent reads. It needs no graph tool, no cache, and no second instruction file.
+HASE is one self-contained file in plain Markdown for AI coding agents. It guides agents to inspect relevant code, make focused changes, verify them, and report evidence with checks proportional to risk. Copy it as the filename your agent reads. It needs no graph tool, cache, adapter set, or second instruction file.
 
 ## 0. Priorities
 
