@@ -63,6 +63,25 @@ class HaseContractTests(unittest.TestCase):
     def test_contract_stays_under_size_limit(self):
         self.assertLess(HASE.stat().st_size, 10_000, "HASE.md exceeds 10 KB")
 
+    def test_readme_lists_all_agent_targets(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        targets = [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "GEMINI.md",
+            ".github/copilot-instructions.md",
+            ".cursor/rules/hase.mdc",
+            ".windsurfrules",
+            ".clinerules",
+            "CONVENTIONS.md",
+            ".agents/rules/hase.md",
+            ".continue/rules/hase.md",
+            ".amazonq/rules/hase.md",
+            ".tabnine/guidelines/hase.md",
+        ]
+        missing = [target for target in targets if target not in readme]
+        self.assertEqual(missing, [], f"README is missing agent targets: {missing}")
+
 
 if __name__ == "__main__":
     unittest.main()

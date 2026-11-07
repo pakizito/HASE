@@ -1,6 +1,6 @@
-# HASE v10.0 — One-File Engineering Contract
+# HASE v10.1 — One-File Engineering Contract
 
-HASE is one self-contained file. Copy it as the filename your agent reads. It needs no graph tool, no cache, and no second instruction file.
+HASE is one self-contained file in plain Markdown. Copy it as the filename your agent reads. It needs no graph tool, no cache, and no second instruction file.
 
 ## 0. Priorities
 
@@ -141,4 +141,4 @@ Do not rewrite unrelated code. Do not add speculative abstraction. Do not delete
 
 ## 11. Version
 
-HASE version: **10.0.0**. Memory schema: **7.0**. HASE is guidance, not a guarantee.
+HASE version: **10.1.0**. Memory schema: **7.0**. HASE is guidance, not a guarantee.

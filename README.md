@@ -1,22 +1,43 @@
-# HASE v10.0
+# HASE v10.1
 
 ### One self-contained instruction file for AI-assisted software development.
 
 HASE gives a coding agent a short, repeatable way to understand a repository, make a focused change, verify it, and hand it back without flooding the context window.
 
-`HASE.md` is the product. It needs no graph tool, no cache, no adapters, and no second instruction file.
+`HASE.md` is the product. It is plain Markdown. It needs no graph tool, no cache, no adapters, and no second instruction file.
 
-## Install
+## Install for any IDE
 
-Copy [`HASE.md`](HASE.md) into your repository under the filename your agent reads:
+Copy [`HASE.md`](HASE.md) into your project under the filename your agent reads. Use one copy per repository.
 
-```powershell
-copy HASE.md AGENTS.md        # Codex and AGENTS.md-compatible agents
-copy HASE.md CLAUDE.md        # Claude Code
-copy HASE.md GEMINI.md        # Gemini
+| IDE or agent | Instruction file | Note |
+| --- | --- | --- |
+| Codex and AGENTS.md-compatible agents | `AGENTS.md` | Most portable option. |
+| Claude Code | `CLAUDE.md` | Plain Markdown. |
+| Gemini | `GEMINI.md` | Plain Markdown. |
+| GitHub Copilot | `.github/copilot-instructions.md` | Plain Markdown. |
+| Cursor | `.cursor/rules/hase.mdc` | Add the frontmatter below. |
+| Windsurf | `.windsurfrules` | Plain text. |
+| Cline and Roo Code | `.clinerules` | Plain text. |
+| Aider | `CONVENTIONS.md` | Plain Markdown. |
+| Antigravity | `.agents/rules/hase.md` | Plain Markdown. |
+| Continue | `.continue/rules/hase.md` | Plain Markdown. |
+| Amazon Q Developer | `.amazonq/rules/hase.md` | Plain Markdown. |
+| Tabnine | `.tabnine/guidelines/hase.md` | Plain Markdown. |
+| Zed | `AGENTS.md` | Uses the AGENTS.md convention. |
+| Other agents | Filename the agent reads | HASE is vendor-neutral Markdown. |
+
+For Cursor, put this frontmatter above the HASE title:
+
+```yaml
+---
+description: HASE engineering contract
+globs: ["**/*"]
+alwaysApply: true
+---
 ```
 
-For Cursor, copy it to `.cursor/rules/hase.mdc` and add the frontmatter that Cursor requires. Keep one copy in the repository.
+Do not install several copies in the same repository. If your agent supports `AGENTS.md`, use it first.
 
 ## What is in the file
 
@@ -87,7 +108,7 @@ Material decisions belong in `docs/adr/`. Read [`CONTRIBUTING.md`](CONTRIBUTING.
 
 ## Status
 
-HASE version: **10.0.0**. Memory schema: **7.0**.
+HASE version: **10.1.0**. Memory schema: **7.0**.
 
 HASE improves process discipline. It does not guarantee correctness, security, or a specific token reduction. Results depend on the model, tools, repository, and review.
 

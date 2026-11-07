@@ -1,3 +1,16 @@
+## [10.1.0] — 2026-11-07
+
+### Added
+
+- Portable install table for Codex, Claude Code, Gemini, Copilot, Cursor, Windsurf, Cline, Aider, Antigravity, Continue, Amazon Q, Tabnine, and Zed.
+- Cursor frontmatter example.
+- Plain-Markdown statement in the contract.
+
+### Changed
+
+- HASE remains one canonical file. Each IDE gets a copy under its expected filename; no adapter set is committed.
+- Version bumped to 10.1.0.
+
 ## [10.0.0] — 2026-11-07
 
 ### Added
