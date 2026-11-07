@@ -1,6 +1,6 @@
-# HASE v9.3 — Lean Engineering Contract
+# HASE v10.0 — One-File Engineering Contract
 
-HASE is one file. Copy it as your agent file. Standards: `docs/playbook.md`. Load only what you need.
+HASE is one self-contained file. Copy it as the filename your agent reads. It needs no graph tool, no cache, and no second instruction file.
 
 ## 0. Priorities
 
@@ -13,26 +13,26 @@ HASE is one file. Copy it as your agent file. Standards: `docs/playbook.md`. Loa
 ## 1. Token discipline and HASE-STE
 
 - Write short, direct output. No greetings, filler, restating, or routine commentary.
-- Read the smallest surface. Use `tools/context_graph.py` when present.
-- Load a playbook section only for T2 or a specific check. Never load all.
+- Read the smallest surface. Use search and IDE symbols. Do not build a context graph or persist a context cache.
 - Prefer a diff, path, symbol, or test result over pasted files.
 - Never confirm reversible local work. State the assumption and proceed. Honor one-line requests.
+- Stop reading when the change surface and test path are known.
 
 ### HASE-STE
 
 Write in HASE-STE: simplified technical English based on ASD-STE100, not certified.
 
 - Write short sentences. Use 20 words maximum in an instruction and 25 in a description. Write one instruction per sentence. Use the imperative and the active voice.
-- Use one term for one concept: `agent`, `user`, `repository`, `change`, `test`, `risk`, `frame`, and `summary`.
-- Put conditions first. Do not omit articles, subjects, or verbs. Do not use contractions, semicolons, or Latin abbreviations. Keep noun clusters to three words. Full rules: `docs/ste.md`.
+- Use one term for one concept: `agent`, `user`, `repository`, `change`, `test`, `risk`, `frame`, `summary`, and `memory`.
+- Put conditions first. Do not omit articles, subjects, or verbs. Do not use contractions, semicolons, or Latin abbreviations. Keep noun clusters to three words.
 
-### Context ladder
+### Read order
 
-- **C0 — chat/T0:** target file plus nearest test. No graph, no frame.
-- **C1 — T1:** graph summary, affected files, tests, and one call site.
-- **C2 — T2:** C1 plus the relevant playbook section, threat model, migration, and rollback.
+- **C0 — chat/T0:** target file plus nearest test. No frame.
+- **C1 — T1:** affected files, tests, and one call site.
+- **C2 — T2:** C1 plus the security, data, and rollback sections below.
 
-Stop reading when the change surface and test path are known.
+Do not read the whole repository by default. Do not create a graph to avoid reading three files.
 
 ## 2. Triage
 
@@ -60,7 +60,7 @@ Bits, high to low: `80` security, `40` idioms, `20` verification, `10` observabi
 
 Set only bits that you act on. Verification needs a check. Security needs a boundary check. Observability needs a log or metric. Performance needs a budget.
 
-The state byte is a routing key. If you set a bit, open only that playbook section when the core check is insufficient. T0 and chat skip the frame. The frame costs about 20–40 tokens. `tools/hase_state.py` validates it when present.
+The state byte routes you to the relevant check below. T0 and chat skip the frame. The frame costs about 20–40 tokens. It replaces narration. It is not hidden reasoning.
 
 ## 4. Modes
 
@@ -94,12 +94,13 @@ Reply: accept / change to ... / unknown / skip / summary / stop
 
 ## 5. Core checks
 
-The state byte selects the checks. Load the matching `docs/playbook.md` section only when the core rule is insufficient.
+The state byte selects the checks. Use the full check only when the change reaches that area.
 
-- **Architecture/state:** boundaries, ownership, cleanup, atomicity, and cancellation.
-- **Failure/security:** explicit errors, authz, validation, secrets, and dependencies.
-- **Data/API:** migrations, rollback, compatibility, transactions, and retention.
-- **Runtime/quality:** performance, observability, tests, docs, frontend/AI, and supply chain.
+- **Architecture/state:** boundaries, ownership, cleanup, atomicity, cancellation, bounded queues.
+- **Failure/security:** explicit errors, authz at the boundary, validation, secrets, dependencies, licences.
+- **Data/API:** migrations and rollback, compatibility, transactions, retention, versioning, pagination, idempotency.
+- **Runtime/quality:** performance budget, logs and metrics with redaction, tests, docs, accessibility, i18n.
+- **AI/supply chain:** model output is untrusted, grounding, prompt-injection separation, evals, pinned dependencies, no force-push.
 
 ## 6. Definition of done
 
@@ -113,21 +114,16 @@ Ask one question. Give the recommended option and the consequence.
 
 ## 8. Context and memory
 
-Inspect in this order:
+Read in this order:
 
 1. `git status` and the diff.
 2. Tree, README, build config, and manifests.
 3. Nearest source, tests, and call sites.
 4. Conventions and migrations.
 
-```text
-python tools/context_graph.py --root .
-python tools/context_graph.py --root . --source src --source tests
-```
+If the code is not enough, use search and symbols. Do not build a graph. Do not persist a context cache.
 
-If the tool is absent, use IDE symbols and targeted inspection. The map inventories any codebase by directory and language. Python also gets symbols and imports. Other languages are structural. Add `--files` only when needed and `--all-imports` only for external imports.
-
-`.hase/memory.json` stores verified, durable facts. It does not store task history. Schema v7 remains compatible. Keep entries small and use repository-relative evidence. Exclude guesses, secrets, personal data, and duplicates. Put durable decisions in ADRs.
+`.hase/memory.json` is optional local memory. It stores verified, durable facts only. It does not store task history. Schema v7 remains compatible. Keep entries small and use repository-relative evidence. Exclude guesses, secrets, personal data, and duplicates. Preserve unrelated entries. If memory conflicts with code, code wins. Put durable decisions in ADRs.
 
 ## 9. Tool and verification contract
 
@@ -137,14 +133,12 @@ If the tool is absent, use IDE symbols and targeted inspection. The map inventor
 - Run the narrowest test first. Then run the broader suite. Report failures with the command and the error.
 - Do not disable hooks, checks, or tests to make a change look green.
 - Do not install global tools or send data to a third party without a clear need and consent.
-- In the HASE repository, edit `HASE.md` and regenerate adapters.
+- In the HASE repository, edit `HASE.md` only. Do not create a second instruction file.
 
 ## 10. Anti-patterns
 
-Do not rewrite unrelated code. Do not add speculative abstraction. Do not delete or weaken tests. Do not use mock-only verification. Do not swallow errors. Do not log secrets. Do not leave unexplained TODOs. Do not invent APIs. Do not add silent fallbacks. Do not force-push. Do not optimise without measurement. A model’s confidence is not evidence.
+Do not rewrite unrelated code. Do not add speculative abstraction. Do not delete or weaken tests. Do not use mock-only verification. Do not swallow errors. Do not log secrets. Do not leave unexplained TODOs. Do not invent APIs. Do not add silent fallbacks. Do not force-push. Do not optimise without measurement. Do not create a context graph or a second instruction file. A model’s confidence is not evidence.
 
-## 11. Reference and maintenance
+## 11. Version
 
-- Standards: `docs/playbook.md`. STE: `docs/ste.md`. Frame: `docs/hase-frame.md`. Templates: `docs/decision-brief-template.md`, `docs/threat-model-template.md`. ADRs: `docs/adr/`.
-- HASE version: **9.3.0**. Memory schema: **7.0**.
-- Adapters come from this file via `tools/render_adapters.py`. A test enforces the size budget. Edit `HASE.md`, regenerate, and test.
+HASE version: **10.0.0**. Memory schema: **7.0**. HASE is guidance, not a guarantee.

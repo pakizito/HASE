@@ -1,6 +1,6 @@
 # 0003 — Evidence-backed hex frame
 
-- **Status:** Accepted
+- **Status:** Accepted; tooling and references superseded by 0005
 - **Date:** 2026-10-25
 - **Deciders:** HASE maintainers
 
@@ -19,7 +19,7 @@ Restore the hex state as a scoped frame:
 - Each set bit must be backed by an action or observation. Verification requires a test, security a boundary check, performance a budget.
 - `tools/hase_state.py` validates and encodes/decodes frames.
 - `docs/hase-frame.md` defines the grammar and evidence rules.
-- The adapter remains under the 9.7 KB budget.
+- At v9.1, the adapter remained under the 9.7 KB budget.
 
 ## Consequences
 

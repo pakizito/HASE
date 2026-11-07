@@ -1,3 +1,23 @@
+## [10.0.0] — 2026-11-07
+
+### Added
+
+- One self-contained `HASE.md` with no external instruction dependency.
+- Read order and stop rule for context.
+- Optional local memory protocol in `.hase/memory.json`.
+
+### Changed
+
+- HASE is now copied as one file. Generated adapters are removed.
+- The frame, GRILL, checks, and HASE-STE remain in the same file.
+- Tests check one-file self-containment, STE rules, and the 10 KB limit.
+
+### Removed
+
+- Polyglot context graph, cache, tool, tests, and documentation.
+- Adapter renderer and nine generated adapter files.
+- State validator and external playbook, STE, frame, and template files.
+
 ## [9.3.0] — 2026-10-25
 
 ### Added

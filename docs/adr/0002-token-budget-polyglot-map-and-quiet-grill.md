@@ -1,6 +1,6 @@
 # 0002 — Token budget, polyglot map, and quiet GRILL
 
-- **Status:** Accepted
+- **Status:** Superseded by 0005
 - **Date:** 2026-10-24
 - **Deciders:** HASE maintainers
 

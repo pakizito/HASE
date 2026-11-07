@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-HASE is a set of plain-text instructions and local developer tools. Security fixes are applied to the current major version, currently **9.x**.
+HASE is a plain-text instruction file. Security fixes apply to the current major version, currently **10.x**.
 
 ## Reporting a vulnerability
 
@@ -12,21 +12,21 @@ Use GitHub's private vulnerability reporting for this repository:
 
 1. Open the repository's **Security** tab.
 2. Choose **Report a vulnerability**.
-3. Include the affected file, version, impact, and a minimal reproduction or proof of concept.
+3. Include the affected section, version, impact, and a minimal reproduction.
 
-If private reporting is unavailable, open a public issue that asks the maintainer to establish a private channel, without including exploit details, secrets, or personal data.
+If private reporting is unavailable, open a public issue that asks the maintainer to establish a private channel. Do not include exploit details, secrets, or personal data.
 
 ## Scope
 
 Relevant reports include:
 
-- unexpected command execution, network access, or filesystem writes by the local tools;
-- path traversal or unsafe overwrite behaviour in `tools/context_graph.py` or `tools/render_adapters.py`;
-- secret leakage in generated files or logs;
-- instructions that could cause an agent to perform destructive or unauthorised actions.
+- instructions that could cause an agent to perform destructive or unauthorised actions;
+- secret leakage in examples, memory, or generated output;
+- a rule that weakens auth, data, or verification boundaries;
+- unsafe handling of `.hase/memory.json`.
 
-HASE cannot enforce its own rules. A model that ignores the contract is a product limitation, not a vulnerability by itself, unless the tooling makes the unsafe outcome materially easier.
+HASE cannot enforce its own rules. A model that ignores the contract is a product limitation, not a vulnerability by itself.
 
 ## Handling secrets
 
-Never include credentials, tokens, private keys, customer data, or production configuration in an issue, test fixture, or example. Redact them before reporting.
+Never include credentials, tokens, private keys, customer data, or production configuration in an issue, test, or example. Redact them before reporting.

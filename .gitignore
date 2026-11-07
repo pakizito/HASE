@@ -4,7 +4,7 @@ ehthumbs.db
 Desktop.ini
 .DS_Store
 
-# IDE and editor settings (excluding the HASE instruction files)
+# IDE and editor settings
 .idea/
 .vscode/
 *.suo
@@ -23,5 +23,5 @@ __pycache__/
 venv/
 env/
 
-# Generated repository-specific Python context
-.hase/context.md
+# Local memory (data, not the instruction file)
+.hase/memory.json

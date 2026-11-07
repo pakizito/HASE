@@ -1,58 +1,63 @@
 # Contributing to HASE
 
-HASE is intentionally small and portable. Changes should improve agent behaviour without turning the project into a framework.
+HASE is one file. The contract is [`HASE.md`](HASE.md). Keep it that way.
 
 ## Source of truth
 
-Edit [`HASE.md`](HASE.md). The adapter files are generated and must not be edited by hand:
+Edit `HASE.md` only.
 
-- `AGENTS.md`
-- `CLAUDE.md`
-- `GEMINI.md`
-- `.github/copilot-instructions.md`
-- `.cursor/rules/hase.mdc`
-- `.windsurfrules`
-- `.clinerules`
-- `.agents/rules/hase.md`
-- `CONVENTIONS.md`
+Do not add:
 
-After changing `HASE.md`:
+- generated adapter files;
+- a context graph, cache, or index;
+- a second instruction file;
+- a required reference document;
+- a runtime dependency.
+
+If a rule needs more detail, write it in `HASE.md`. If it does not fit, it is not a HASE rule.
+
+## Before you change the contract
+
+Ask one question: does this change an engineering decision or prevent a repeated failure?
+
+If the answer is no, do not add it. If the answer is yes, keep the rule short and testable.
+
+## Validate
 
 ```powershell
-python tools/render_adapters.py
 python -m unittest discover -s tests -t . -v
-python tools/render_adapters.py --check
 ```
+
+The tests check the one-file contract, the HASE-STE rules, and the size limit.
 
 ## What belongs here
 
-- A rule that changes a real engineering decision or prevents a repeated failure.
-- A missing mode, checklist, or safety boundary with a clear use case.
-- Tooling that stays local, standard-library-only, and opt-in.
-- Tests for behaviour, not snapshots of prose.
+- A rule that changes a real decision or prevents a repeated failure.
+- A missing mode, check, or safety boundary with a clear use case.
+- A smaller way to express the same rule.
 
 Avoid:
 
-- adding a rule for every possible mistake;
-- duplicating the same guidance in several sections;
-- language-specific advice without evidence that it generalises;
-- dependencies, background hooks, or network calls;
+- a rule for every possible mistake;
+- repeated guidance in several sections;
+- language-specific advice without evidence;
+- dependencies, hooks, background jobs, or network calls;
 - claims that HASE guarantees correctness, security, or token savings.
 
 ## Pull request checklist
 
-- [ ] `HASE.md` is the only instruction source changed.
-- [ ] Adapters were regenerated and `--check` passes.
+- [ ] `HASE.md` is the only instruction file changed.
+- [ ] No adapters, graph, cache, or second instruction file added.
 - [ ] Tests pass.
-- [ ] New behaviour has a test or a clear reason why it cannot be tested.
-- [ ] No secrets, personal data, or credentials are included.
-- [ ] The change does not weaken the security, data, or verification rules.
-- [ ] The README or an ADR is updated when the contract changes materially.
+- [ ] The file is still under 10 KB.
+- [ ] No secrets, personal data, or credentials.
+- [ ] Security, data, and verification rules are not weaker.
+- [ ] A material decision is recorded in `docs/adr/`.
 
 ## Decision records
 
-Material changes to the contract belong in `docs/adr/`. Copy `docs/adr/0000-template.md`, number it sequentially, and state the alternatives and consequences.
+Copy `docs/adr/0000-template.md`, number it sequentially, and state the context, decision, alternatives, and consequences.
 
-## Reporting security issues
+## Security
 
 Do not open a public issue for a vulnerability. See [`SECURITY.md`](SECURITY.md).

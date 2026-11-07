@@ -1,70 +1,68 @@
-# HASE v9.3
+# HASE v10.0
 
-### A token-optimized engineering contract for AI-assisted software development.
+### One self-contained instruction file for AI-assisted software development.
 
-HASE gives coding agents a repeatable way to understand a repository, make focused changes, verify with evidence, and hand work back without flooding the context window.
+HASE gives a coding agent a short, repeatable way to understand a repository, make a focused change, verify it, and hand it back without flooding the context window.
 
-The default adapter is a compact contract. Detailed standards live in [`docs/playbook.md`](docs/playbook.md) and are loaded only when a task needs them.
+`HASE.md` is the product. It needs no graph tool, no cache, no adapters, and no second instruction file.
 
-> **Guidance, not magic:** HASE improves process discipline. It does not guarantee correctness, security, or a particular token reduction. Results still depend on the model, editor tools, repository state, and human review.
+## Install
 
-## What changed in v9.3
+Copy [`HASE.md`](HASE.md) into your repository under the filename your agent reads:
 
-v9.3 adds HASE-STE, a controlled style based on ASD-STE100.
+```powershell
+copy HASE.md AGENTS.md        # Codex and AGENTS.md-compatible agents
+copy HASE.md CLAUDE.md        # Claude Code
+copy HASE.md GEMINI.md        # Gemini
+```
 
-- **Short sentences:** 20 words maximum for instructions, 25 for descriptions.
-- **One instruction per sentence:** use the imperative and the active voice.
-- **One term per concept:** use `agent`, `user`, `repository`, `change`, `test`, `risk`, `frame`, and `summary`.
-- **Conditions first:** “If X, do Y.” Do not omit articles, subjects, or verbs.
-- **Not certified STE:** HASE uses selected STE principles, not the full ASD-STE100 dictionary or certification. See [`docs/ste.md`](docs/ste.md).
-- **Budget:** about 8.9 KB core; 9.7 KB adapter budget.
+For Cursor, copy it to `.cursor/rules/hase.mdc` and add the frontmatter that Cursor requires. Keep one copy in the repository.
 
-## What changed in v9.2
+## What is in the file
 
-v9.2 makes the contract leaner and more context-aware: one copyable file, a context ladder, and the hex state as a routing key.
+- Priorities and token discipline.
+- HASE-STE: short sentences, active voice, one term for one concept.
+- A read order from C0 to C2.
+- Triage from T0 to T3.
+- The `[STATE]`, `[PLAN]`, and `[SUMMARY]` frame.
+- GRILL, PLAN, BUILD, DEBUG, REVIEW, and SHIP modes.
+- Core checks for architecture, security, data, runtime, AI, and supply chain.
+- Definition of done, stop conditions, and anti-patterns.
+- Optional local memory in `.hase/memory.json`.
 
-- **One file:** `HASE.md` is the canonical copy; the adapters are pre-renamed copies.
-- **Context ladder:** C0/T0 reads only the target and nearest test; C1/T1 adds the graph, affected files and tests; C2/T2 adds the relevant playbook section and threat model.
-- **Routing key:** the state byte selects which optional check sections to load, instead of loading the whole playbook.
-- **Tighter budget:** the adapter budget is 9.5 KB; the default is about 9 KB.
+## Why the context graph is gone
 
-## What changed in v9.1
+The graph added a tool run, a cache file, and another thing to keep true. It did not save enough reading to pay for those steps. HASE now uses a simpler rule:
 
-v9.1 restores the hex state as an evidence-backed machine frame, not as ceremony.
+1. Read the smallest surface.
+2. Stop when the change and test path are clear.
+3. Use search and IDE symbols when the code is not enough.
 
-- **Hex state frame:** T1/T2 code changes and reviews start with `[STATE: 0xNN]` and `[PLAN: ...]`, and end with `[SUMMARY: change | verify: ... | risk: ...]`.
-- **Evidence-backed bits:** a set bit must be acted on. Verification needs a test, security needs a boundary check, performance needs a budget.
-- **Validator:** `tools/hase_state.py` decodes, encodes, and checks frames.
-- **Still compact:** detailed standards remain in `docs/playbook.md`.
+Do not create a graph. If an old `.hase/context.md` exists, ignore it. Code and tests are the source of truth.
 
-## What changed in v9
+## Memory
 
-v8 proved the process but grew to about 23 KB per adapter. v9 keeps the useful parts and makes them compact.
+Memory is optional data, not a second instruction file. It stores only verified, durable facts.
 
-- **Token-optimized core:** the canonical contract is now about 9 KB instead of 23 KB. A unit test enforces a 9.7 KB adapter budget.
-- **Progressive disclosure:** detailed security, data, API, frontend, AI, and release guidance moved to `docs/playbook.md`; the adapter points to the relevant reference.
-- **Quiet GRILL:** the decision interview remains, but it runs silently by default. The agent resolves facts and sensible defaults itself and asks only when the answer changes behaviour, security, data, cost, or an irreversible action. Hard cap: three blocking questions per task.
-- **Polyglot context graph:** `tools/context_graph.py` now inventories any codebase by directory and language. Python also gets symbols and import edges; other languages get a structural map. `--files` is opt-in.
-- **Less nagging:** no routine confirmation for plans, reversible local edits, or read-only work. Assumptions are stated in the handoff instead.
-- **AGENTS.md:** added for Codex and other AGENTS.md-compatible agents. All nine adapters are generated from `HASE.md`.
+```json
+{
+  "version": "7.0",
+  "findings": [
+    {
+      "id": "f-001",
+      "topic": "API",
+      "fact": "Access tokens expire after 15 minutes.",
+      "files": ["src/auth.py"]
+    }
+  ]
+}
+```
 
-Memory schema remains **v7-compatible**; HASE’s contract version and the memory format version are independent.
+Keep entries small. Use repository-relative evidence. Do not store secrets, personal data, guesses, or task history. If memory conflicts with code, code wins. Put durable decisions in `docs/adr/`.
 
-## Core behaviour
+## The frame
 
-| Area | Rule |
-| --- | --- |
-| Triage | T0 trivial, T1 normal, T2 high risk, T3 incident. Escalate when unsure. |
-| GRILL | Resolve silently; ask only blocking questions; recommend an option with a trade-off. |
-| PLAN | Goal, acceptance criteria, constraints, failure modes, rollback, tests. |
-| BUILD | Read first, focused patch, tests where practical, run the checks. |
-| DEBUG | Reproduce, isolate, fix the cause, add a regression test. |
-| REVIEW | P0–P3 findings with file/line evidence; read-only by default. |
-| SHIP | Verify, document, and do not deploy without explicit approval. |
-
-## The hex state frame
-
-The frame is a **commitment header**, not a compression of reasoning. It forces the agent to choose the lenses it will act on and gives another agent a stable line to parse. Use it for T1/T2 code changes and reviews; skip it for T0 and ordinary chat.
+Use the frame for T1 and T2 code changes and reviews. Skip it for T0 and ordinary chat.
 
 ```text
 [STATE: 0x25]
@@ -73,161 +71,26 @@ The frame is a **commitment header**, not a compression of reasoning. It forces 
 [SUMMARY: parser fixed | verify: 27 tests pass | risk: none]
 ```
 
-Bits, high to low:
+Bits, high to low: `80` security, `40` idioms, `20` verification, `10` observability, `08` performance, `04` defensive design, `02` state/lifecycle, `01` architecture.
 
-| Bit | Lens | Evidence expected |
-| --- | --- | --- |
-| `0x80` | Security / privacy | Boundary, authz, secret, or data check |
-| `0x40` | Idioms | Repository convention followed |
-| `0x20` | Verification | Test, command, or observation |
-| `0x10` | Observability | Log, metric, trace, or why not needed |
-| `0x08` | Performance | Budget, measurement, or complexity argument |
-| `0x04` | Defensive design | Input, error, or boundary handling |
-| `0x02` | State / lifecycle | Ownership, cleanup, concurrency, atomicity |
-| `0x01` | Architecture | Boundary, interface, or dependency direction |
+Set only bits that you act on. Every set bit needs evidence. The byte is a commitment header, not a compression of reasoning.
 
-Set only bits you act on. `0x00` means no lens applies: skip the frame instead of emitting a meaningless one.
+## Maintain
 
-The full specification and evidence rules are in [`docs/hase-frame.md`](docs/hase-frame.md). Validate a frame with:
-
-```powershell
-python tools/hase_state.py decode 0x25
-python tools/hase_state.py encode architecture defensive verification
-python tools/hase_state.py check frame.txt
-```
-
-## Install one file
-
-The canonical file is [`HASE.md`](HASE.md). Copy it into your project under the name your agent reads:
-
-```powershell
-copy HASE.md AGENTS.md        # Codex / AGENTS.md-compatible
-copy HASE.md CLAUDE.md        # Claude Code
-copy HASE.md GEMINI.md        # Gemini
-```
-
-The adapters below are pre-renamed copies of the same text. Use one; do not install every variant in the same repository.
-
-| IDE / agent | Instruction file |
-| --- | --- |
-| Codex / AGENTS.md-compatible agents | [`AGENTS.md`](AGENTS.md) |
-| GitHub Copilot | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) |
-| Cursor | [`.cursor/rules/hase.mdc`](.cursor/rules/hase.mdc) |
-| Claude Code | [`CLAUDE.md`](CLAUDE.md) |
-| Windsurf | [`.windsurfrules`](.windsurfrules) |
-| Cline / Roo Code | [`.clinerules`](.clinerules) |
-| Antigravity | [`.agents/rules/hase.md`](.agents/rules/hase.md) |
-| Gemini | [`GEMINI.md`](GEMINI.md) |
-| Aider | [`CONVENTIONS.md`](CONVENTIONS.md) |
-
-Each adapter is self-contained for normal work. The generated marker is provenance: when contributing to HASE, edit [`HASE.md`](HASE.md) and run the renderer. A copied adapter may be adapted for its target project; the detailed playbook is optional reference, not a runtime dependency.
-
-```powershell
-python tools/render_adapters.py
-python tools/render_adapters.py --check
-```
-
-## GRILL without nagging
-
-Use GRILL when the user says “grill me”, when a high-impact requirement is genuinely ambiguous, or before a large T2 build.
-
-The agent first resolves everything it can from the repository, conventions, and sensible defaults. It asks only when the answer changes one of:
-
-- observable behaviour or a public contract;
-- data shape, retention, deletion, or migration;
-- security, privacy, or authorisation;
-- cost, latency, or operational risk above budget;
-- an irreversible action or external side effect.
-
-Questions are one at a time, with a recommendation and trade-off:
-
-```text
-Q: Should the first release support shared family accounts, or one owner per profile?
-Recommended: One owner — smaller permission model and clearer consent boundary.
-Trade-off: Families with multiple caregivers wait for the second release.
-Reply: accept / change to ... / unknown / skip / summary / stop
-```
-
-If no blocking doubt exists, there is no question. The agent states its assumptions and proceeds. The full protocol is in [`docs/playbook.md`](docs/playbook.md#grill-protocol).
-
-## Polyglot context graph
-
-For any codebase:
-
-```powershell
-python tools/context_graph.py --root .
-python tools/context_graph.py --root . --source src --source tests
-python tools/context_graph.py --root . --files
-```
-
-The default output is a compact summary: languages, directory counts, Python modules and import edges. Other languages are inventoried structurally; HASE does not pretend a regex is a parser. `--files` adds the full code-file listing only when needed; `--all-imports` includes external Python imports. Module names are relative to the selected source roots; use `--root .` for cross-root imports.
-
-The tool requires Python 3.10 or later, uses only the standard library, does not import project code, and writes `.hase/context.md`. It skips VCS, virtual environments, caches, editor state, package managers, generated context, and common build outputs. It fails instead of silently truncating above 2,000 code files or 30,000 output characters. It refuses to overwrite handwritten context without `--force`.
-
-Treat the map as a cache. Verify the source before relying on it.
-
-## Optional project memory
-
-Memory is for verified, durable facts that change future decisions, not task history. It is separate from the generated context map and is not created during setup.
-
-```json
-{
-  "version": "7.0",
-  "updated_at": "2026-10-24T12:00:00Z",
-  "findings": [
-    {
-      "id": "f-001",
-      "topic": "API",
-      "fact": "Access tokens expire after 15 minutes.",
-      "files": ["src/auth.py"],
-      "recorded_at": "2026-10-24T12:00:00Z"
-    }
-  ],
-  "invariants": ["Pure logic stays decoupled from infrastructure I/O"]
-}
-```
-
-Keep entries verified, durable, concise, and useful. Preserve unrelated entries. Exclude guesses, secrets, personal data, duplicates, and task logs. Durable architecture decisions belong in `docs/adr/`, not in memory.
-
-## Templates and reference
-
-- [`docs/playbook.md`](docs/playbook.md) — detailed standards and full GRILL protocol.
-- [`docs/ste.md`](docs/ste.md) — HASE-STE, the selected ASD-STE100 style.
-- [`docs/hase-frame.md`](docs/hase-frame.md) — full state-frame grammar, bit evidence, and parser contract.
-- [`docs/decision-brief-template.md`](docs/decision-brief-template.md) — output of a GRILL session.
-- [`docs/threat-model-template.md`](docs/threat-model-template.md) — T2 security and trust-boundary review.
-- [`docs/adr/0000-template.md`](docs/adr/0000-template.md) — durable architecture decision record.
-
-## Repository maintenance
+Edit `HASE.md` only. Do not add generated instruction files, a context graph, or a second instruction source.
 
 ```powershell
 python -m unittest discover -s tests -t . -v
-python tools/render_adapters.py --check
-python tools/context_graph.py --root .
-python tools/hase_state.py decode 0x25
 ```
 
-CI runs the test suite and the adapter drift check on every push and pull request. The repository uses UTF-8, LF line endings, and a two-space Markdown indent; see `.editorconfig` and `.gitattributes`.
+Material decisions belong in `docs/adr/`. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before a change.
 
-## Design principles
+## Status
 
-- **Explicit opt-in:** no hooks, background scans, or automatic writes.
-- **Local by default:** no MCP, network access, package installation, or third-party service required.
-- **Source remains authoritative:** generated context and memory can be stale; inspect the code.
-- **Proportional ceremony:** use the lightest process that still makes the change safe and reviewable.
-- **One source of truth:** edit `HASE.md`, not the generated adapters.
-- **Token discipline:** the default adapter is compact; detail is opt-in.
+HASE version: **10.0.0**. Memory schema: **7.0**.
 
-## Contributing
+HASE improves process discipline. It does not guarantee correctness, security, or a specific token reduction. Results depend on the model, tools, repository, and review.
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the source-of-truth workflow and pull-request checklist. Report vulnerabilities through the process in [`SECURITY.md`](SECURITY.md). Material contract changes belong in [`CHANGELOG.md`](CHANGELOG.md) and [`docs/adr/`](docs/adr/).
+## License
 
-## Inspirations
-
-- [grill-me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me) by Matt Pocock (MIT): the one-question-at-a-time decision interview, recommended answers, and “facts are the agent’s job; decisions are the user’s.”
-- [grill-with-docs](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-with-docs) (MIT): shared domain language and ADRs as durable decision records.
-- The original HASE v7 lens model.
-
-HASE is not affiliated with those projects. The GRILL implementation here is a quiet adaptation, not a copy.
-
-Licensed under [MIT](LICENSE).
+See [`LICENSE`](LICENSE). Report security issues through [`SECURITY.md`](SECURITY.md).
