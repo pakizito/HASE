@@ -1,6 +1,6 @@
 # HASE engineering playbook
 
-Extended reference for HASE v9.2. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
+Extended reference for HASE v9.3. Load only the section the task needs. The compact contract is in [`../HASE.md`](../HASE.md).
 
 ## GRILL protocol
 
@@ -259,6 +259,20 @@ Ask one focused question. Include the recommended option and the consequence of 
 - **C2 — T2:** C1 plus the relevant playbook section, threat model, migration and rollback.
 
 Stop when the change surface and verification path are known. Do not read the whole repository or the whole playbook by default.
+
+### HASE-STE
+
+Write HASE output in HASE-STE. The rules come from ASD-STE100 principles, but HASE is not certified STE.
+
+- Use no more than 20 words in an instruction and 25 in a description.
+- Write one instruction in one sentence.
+- Use the imperative and the active voice.
+- Use one term for one concept. The glossary is in [`ste.md`](ste.md).
+- Put conditions first. Do not omit articles, subjects, or verbs.
+- Do not use contractions, semicolons, or Latin abbreviations.
+- Keep noun clusters to three words or fewer.
+
+Short sentences do not always reduce tokens. They reduce ambiguity and rework. Do not remove evidence to save tokens.
 
 ### Inspect in this order
 

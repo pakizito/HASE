@@ -1,3 +1,16 @@
+## [9.3.0] — 2026-10-25
+
+### Added
+
+- HASE-STE controlled style: short sentences, one instruction per sentence, active voice, one term per concept, conditions first, and a small HASE glossary.
+- `docs/ste.md` with the selected ASD-STE100 principles, examples, limits, and attribution.
+
+### Changed
+
+- Default core reduced to about 8.9 KB; adapter budget set to 9.7 KB.
+- Instructions and summaries use short, direct sentences.
+- Version bumped to 9.3.0.
+
 ## [9.2.0] — 2026-10-25
 
 ### Added

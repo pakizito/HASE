@@ -1,4 +1,4 @@
-# HASE v9.2
+# HASE v9.3
 
 ### A token-optimized engineering contract for AI-assisted software development.
 
@@ -8,6 +8,17 @@ The default adapter is a compact contract. Detailed standards live in [`docs/pla
 
 > **Guidance, not magic:** HASE improves process discipline. It does not guarantee correctness, security, or a particular token reduction. Results still depend on the model, editor tools, repository state, and human review.
 
+## What changed in v9.3
+
+v9.3 adds HASE-STE, a controlled style based on ASD-STE100.
+
+- **Short sentences:** 20 words maximum for instructions, 25 for descriptions.
+- **One instruction per sentence:** use the imperative and the active voice.
+- **One term per concept:** use `agent`, `user`, `repository`, `change`, `test`, `risk`, `frame`, and `summary`.
+- **Conditions first:** “If X, do Y.” Do not omit articles, subjects, or verbs.
+- **Not certified STE:** HASE uses selected STE principles, not the full ASD-STE100 dictionary or certification. See [`docs/ste.md`](docs/ste.md).
+- **Budget:** about 8.9 KB core; 9.7 KB adapter budget.
+
 ## What changed in v9.2
 
 v9.2 makes the contract leaner and more context-aware: one copyable file, a context ladder, and the hex state as a routing key.
@@ -15,7 +26,7 @@ v9.2 makes the contract leaner and more context-aware: one copyable file, a cont
 - **One file:** `HASE.md` is the canonical copy; the adapters are pre-renamed copies.
 - **Context ladder:** C0/T0 reads only the target and nearest test; C1/T1 adds the graph, affected files and tests; C2/T2 adds the relevant playbook section and threat model.
 - **Routing key:** the state byte selects which optional check sections to load, instead of loading the whole playbook.
-- **Tighter budget:** the adapter budget is now 9.5 KB; the default is about 9 KB.
+- **Tighter budget:** the adapter budget is 9.5 KB; the default is about 9 KB.
 
 ## What changed in v9.1
 
@@ -30,7 +41,7 @@ v9.1 restores the hex state as an evidence-backed machine frame, not as ceremony
 
 v8 proved the process but grew to about 23 KB per adapter. v9 keeps the useful parts and makes them compact.
 
-- **Token-optimized core:** the canonical contract is now about 9 KB instead of 23 KB. A unit test enforces a 9.5 KB adapter budget.
+- **Token-optimized core:** the canonical contract is now about 9 KB instead of 23 KB. A unit test enforces a 9.7 KB adapter budget.
 - **Progressive disclosure:** detailed security, data, API, frontend, AI, and release guidance moved to `docs/playbook.md`; the adapter points to the relevant reference.
 - **Quiet GRILL:** the decision interview remains, but it runs silently by default. The agent resolves facts and sensible defaults itself and asks only when the answer changes behaviour, security, data, cost, or an irreversible action. Hard cap: three blocking questions per task.
 - **Polyglot context graph:** `tools/context_graph.py` now inventories any codebase by directory and language. Python also gets symbols and import edges; other languages get a structural map. `--files` is opt-in.
@@ -181,6 +192,7 @@ Keep entries verified, durable, concise, and useful. Preserve unrelated entries.
 ## Templates and reference
 
 - [`docs/playbook.md`](docs/playbook.md) — detailed standards and full GRILL protocol.
+- [`docs/ste.md`](docs/ste.md) — HASE-STE, the selected ASD-STE100 style.
 - [`docs/hase-frame.md`](docs/hase-frame.md) — full state-frame grammar, bit evidence, and parser contract.
 - [`docs/decision-brief-template.md`](docs/decision-brief-template.md) — output of a GRILL session.
 - [`docs/threat-model-template.md`](docs/threat-model-template.md) — T2 security and trust-boundary review.
